@@ -11,6 +11,9 @@
     "test:codegen": "playwright codegen"
   },
   "license": "ISC",
+  "dependencies": {
+    "env-cmd": "^10.1.0"
+  },
   "devDependencies": {
     "@playwright/test": "^1.22.2"
   }
