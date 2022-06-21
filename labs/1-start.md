@@ -3,6 +3,8 @@ We use VSCode for the exercises. Make sure you have it installed.
 Furthermore, install the official Playwright extension
 from https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright
 
+Create your own branch via `git checkout -b [yourname]`, or via your IDE.
+
 Let's start.
 
 # 1. Setup
@@ -217,3 +219,7 @@ A new window should open. Take your time and make sure you understand its elemen
 click on the commands, etc.
 
 You might have to use it quite often in the future 😉
+
+## 6. Push your branch
+
+Finally, push your branch to Gitlab.
