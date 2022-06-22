@@ -1,4 +1,5 @@
 node_modules/
 /test-results/
+/tests/playground.spec.ts
 /playwright-report/
 /playwright/.cache/
