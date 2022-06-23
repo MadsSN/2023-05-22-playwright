@@ -1,4 +1,17 @@
-import { test, expect } from "@playwright/test";
+import { expect, test as base } from "@playwright/test";
+import {
+  customerFixtures,
+  CustomerFixtures,
+} from "./fixtures/customer-fixtures";
+import {
+  sidemenuFixtures,
+  SidemenuFixtures,
+} from "./fixtures/sidemenu-fixtures";
+
+const test = base.extend<CustomerFixtures & SidemenuFixtures>({
+  ...customerFixtures,
+  ...sidemenuFixtures,
+});
 
 test.describe("Basics", () => {
   test.beforeEach(async ({ page }) => {
@@ -15,86 +28,100 @@ test.describe("Basics", () => {
     );
   });
 
-  test("customers list shows 10 rows", async ({ page }) => {
-    await page.click("data-testid=btn-customers");
-    const locator = page.locator("data-testid=row-customer");
-    await expect(locator).toHaveCount(10);
+  test.describe("customers", () => {
+    test.beforeEach(async ({ sidemenuPage }) => {
+      await sidemenuPage.select("customers");
+    });
+
+    test("customers list shows 10 rows", async ({ customersPage }) => {
+      await customersPage.assertRowCount(10);
+    });
+
+    test("3rd customer is Brandt, Hugo; 10th is Janáček, Jan", async ({
+      page,
+    }) => {
+      const nameLocator = page.locator(
+        "data-testid=row-customer >> data-testid=name"
+      );
+
+      await expect(nameLocator.nth(2)).toHaveText("Brandt, Hugo");
+      await expect(nameLocator.nth(9)).toHaveText("Janáček, Jan");
+    });
+
+    test("add Nicholas Dimou as new customer", async ({
+      customerPage,
+      customersPage,
+    }) => {
+      await customersPage.add();
+      await customerPage.fillIn({
+        firstname: "Nicholas",
+        lastname: "Dimou",
+        country: "Greece",
+        birthday: new Date(1978, 1, 1),
+      });
+      await customerPage.submit();
+
+      await expect(customersPage.locate("Dimou, Nicholas")).toBeVisible();
+    });
+
+    test("rename Latitia to Laetitia", async ({
+      customersPage,
+      customerPage,
+    }) => {
+      await customersPage.edit("Latitia");
+      await customerPage.fillIn({
+        firstname: "Laetitia",
+        lastname: "Bellitissa-Wagner",
+        country: "Austria",
+      });
+      await customerPage.submit();
+
+      await expect(customersPage.locate("Bellitissa-Wagner")).toBeVisible();
+    });
+
+    test("delete Knut Eggen", async ({ page, customersPage, customerPage }) => {
+      await customersPage.edit("Eggen, Knut");
+      page.on("dialog", (dialog) => dialog.accept());
+      await customerPage.remove();
+
+      await customersPage.assertRowCount(10);
+      await expect(customersPage.locate("Eggen, Knut")).not.toBeVisible();
+    });
+
+    test("select same country again", async ({
+      customersPage,
+      customerPage,
+    }) => {
+      await customersPage.edit("Brandt, Hugo");
+      await customerPage.fillIn({ country: "Austria" });
+      await customerPage.submit();
+    });
   });
 
-  test("3rd customer is Brandt, Hugo; 10th is Janáček, Jan", async ({
+  test("should mock customers request with Isabell Sykora", async ({
     page,
+    customersPage,
+    sidemenuPage,
   }) => {
-    await page.click("data-testid=btn-customers");
-    const nameLocator = page.locator(
-      "data-testid=row-customer >> data-testid=name"
-    );
-
-    await expect(nameLocator.nth(2)).toHaveText("Brandt, Hugo");
-    await expect(nameLocator.nth(9)).toHaveText("Janáček, Jan");
-  });
-
-  test("add Nicholas Dimou as new customer", async ({ page }) => {
-    await page.click("data-testid=btn-customers");
-    await page.click("data-testid=btn-add-customer");
-    await page.fill("data-testid=inp-firstname", "Nicholas");
-    await page.fill("data-testid=inp-lastname", "Dimou");
-    await page.click("data-testid=inp-country");
-    await page.click("text=Greece");
-    await page.fill("data-testid=inp-birthdate", "1.2.1978");
-    await page.click("data-testid=btn-submit");
-
-    await expect(
-      page.locator("data-testid=row-customer", {
-        hasText: "Dimou, Nicholas",
+    await page.click("data-testid=tgl-mock-customers");
+    page.route("https://api.eternal-holidays.net/customers?page=1", (req) =>
+      req.fulfill({
+        contentType: "application/json",
+        body: JSON.stringify({
+          content: [
+            {
+              firstname: "Isabell",
+              lastname: "Sykora",
+              birthdate: "1984-05-30",
+              country: "AT",
+            },
+          ],
+          total: 1,
+        }),
       })
-    ).toBeVisible();
-  });
-
-  test("rename Latitia to Laetitia", async ({ page }) => {
-    await page.click("data-testid=btn-customers");
-
-    await page
-      .locator("[data-testid=row-customer]", { hasText: "Latitia" })
-      .locator("data-testid=btn-edit")
-      .click();
-    await page.fill("data-testid=inp-firstname", "Laetitia");
-    await page.fill("data-testid=inp-lastname", "Bellitissa-Wagner");
-    await page.click("data-testid=inp-country");
-    await page.click("text=Austria");
-    await page.click("data-testid=btn-submit");
-
-    await expect(
-      page.locator("data-testid=row-customer", { hasText: "Bellitissa-Wagner" })
-    ).toBeVisible();
-  });
-
-  test("delete Knut Eggen", async ({ page }) => {
-    await page.click("data-testid=btn-customers");
-
-    await page
-      .locator("[data-testid=row-customer]", { hasText: "Eggen, Knut" })
-      .locator("data-testid=btn-edit")
-      .click();
-    page.on("dialog", (dialog) => dialog.accept());
-    await page.click("data-testid=btn-delete");
-
-    const locator = page.locator("data-testid=row-customer");
-    await expect(locator).toHaveCount(10);
-
-    await expect(
-      page.locator("data-testid=row-customer", { hasText: "Eggen, Knut" })
-    ).not.toBeVisible();
-  });
-
-  test("select same country again", async ({ page }) => {
-    await page.click("data-testid=btn-customers");
-
-    await page.click(
-      "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
     );
-    await page.click("data-testid=inp-country");
-    await page.locator("mat-option >> text=Austria").click();
 
-    await page.click("data-testid=btn-submit");
+    await sidemenuPage.select("customers");
+    await customersPage.assertRowCount(1);
   });
 });
