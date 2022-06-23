@@ -116,6 +116,7 @@ Apply some changes to it:
   to `only-on-failure`.
 - `config.use.trace`: For more detailed analysis, we want to have the trace fill as well. Set the property's value
   to `retain-on-failure`.
+- `fullyParallel: false`: In order not to overload the application under test, we disable full parallel. This means that the tests within a file run in sequential order.
 
 That should do it.
 
