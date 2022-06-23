@@ -1,5 +1,7 @@
 node_modules/
+.idea/
 /test-results/
 /tests/playground.spec.ts
 /playwright-report/
 /playwright/.cache/
+john-list.json
