@@ -1,4 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { test as base, expect } from "@playwright/test";
+import {
+  customerFixtures,
+  CustomerFixtures,
+} from "./fixtures/customer.fixtures";
+import { CustomersPage } from "./page-objects/customers-page";
+
+const test = base.extend<CustomerFixtures>({ ...customerFixtures });
 
 test.describe("Basics", () => {
   test.beforeEach(async ({ page }) => {
@@ -68,13 +75,10 @@ test.describe("Basics", () => {
     ).toBeVisible();
   });
 
-  test("delete Knut Eggen", async ({ page }) => {
+  test("delete Knut Eggen", async ({ page, customersPage }) => {
     await page.click("data-testid=btn-customers");
 
-    await page
-      .locator("[data-testid=row-customer]", { hasText: "Eggen, Knut" })
-      .locator("data-testid=btn-edit")
-      .click();
+    await customersPage.selectCustomer("Eggen, Knut");
     page.on("dialog", (dialog) => dialog.accept());
     await page.click("data-testid=btn-delete");
 
