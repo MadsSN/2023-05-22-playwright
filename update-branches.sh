@@ -1,8 +1,8 @@
 set -e
 
-git checkout master
+git checkout main
 
-branches=(master solution-1-start solution-2-basics solution-3-advanced solution-4-beyond-e2e)
+branches=(master 1-start 2-basics 3-advanced 4-beyond-e2e)
 previous=
 current=
 
@@ -21,4 +21,4 @@ done
 git checkout $branch
 git merge $current $branch -m merge
 
-git checkout master
+git checkout main
