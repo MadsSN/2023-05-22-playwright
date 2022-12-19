@@ -8,8 +8,6 @@
     "email": "rainer.hahnekamp@angulararchitects.io"
   },
   "scripts": {
-    "test:codegen": "playwright codegen",
-    "test:debug": "env-cmd playwright test --headed --project=chromium tests/init.spec.ts"
   },
   "license": "ISC",
   "dependencies": {
