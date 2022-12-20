@@ -1,6 +1,6 @@
 - [1. Page Objects](#1-page-objects)
 - [2. Test fixtures](#2-test-fixtures)
-- [3. Bonus: More page objects functionality](#3-bonus-more-page-objects-functionality)
+- [3. More page objects functionality](#3-more-page-objects-functionality)
 - [4. Bonus: nested `describe`](#4-bonus-nested-describe)
 - [5. Network stubbing](#5-network-stubbing)
 - [6. Verify network requests](#6-verify-network-requests)
@@ -8,7 +8,7 @@
 
 ## 1. Page Objects
 
-Create a page objects `CustomersPage` and `CustomerPage`. `CustomersPage` should provide methods to add and edit a customer. `CustomerPage` should provide methods to fill in data to the form fields and a method that submits the form.
+Create page objects `CustomersPage` and `CustomerPage`. `CustomersPage` should provide methods to add and edit a customer. `CustomerPage` should provide methods to fill in data to the form fields and a method that submits the form.
 
 Use the newly created page objects in your test. You have to instantiate in every test manually.
 
@@ -25,11 +25,16 @@ export class CustomersPage {
   constructor(private page: Page) {}
 
   async add(): Promise<void> {
-    await this.page.click("data-testid=btn-add-customer");
+    await this.page.getByTestId("btn-add-customer").click();
   }
 
   async edit(name: string): Promise<void> {
-    await this.locate(name).locator("data-testid=btn-edit").click();
+    await this.page
+      .locator("data-testid=row-customer", {
+        hasText: name,
+      })
+      .getByTestId("btn-edit")
+      .click();
   }
 }
 ```
@@ -51,31 +56,30 @@ export class CustomerPage {
 
   async fillIn(customerData: CustomerData) {
     if (customerData.firstname !== undefined) {
-      await this.page.fill("data-testid=inp-firstname", customerData.firstname);
+      await this.page.getByTestId("inp-firstname").fill(customerData.firstname);
     }
 
     if (customerData.lastname !== undefined) {
-      await this.page.fill("data-testid=inp-lastname", customerData.lastname);
+      await this.page.getByTestId("inp-lastname").fill(customerData.lastname);
     }
 
     if (customerData.birthday !== undefined) {
       const day = customerData.birthday.getDate();
       const month = customerData.birthday.getMonth() + 1;
       const year = customerData.birthday.getFullYear();
-      await this.page.fill(
-        "data-testid=inp-birthdate",
-        `${day}.${month}.${year}`
-      );
+      await this.page
+        .getByTestId("inp-birthdate")
+        .fill(`${day}.${month}.${year}`);
     }
 
     if (customerData.country !== undefined) {
-      await this.page.click("data-testid=inp-country");
-      await this.page.click("mat-option >> text=Greece");
+      await this.page.getByTestId("inp-country").click();
+      await this.page.locator("mat-option >> text=Greece").click();
     }
   }
 
   async submit() {
-    await this.page.click("data-testid=btn-submit");
+    await this.page.getByTestId("btn-submit").click();
   }
 }
 ```
@@ -94,7 +98,7 @@ import { expect, test as base } from "@playwright/test";
 const test = base.extend<>(); // ....
 ```
 
-## 3. Bonus: More page objects functionality
+## 3. More page objects functionality
 
 Extend the test fixtures and page objects, so that they provide
 
@@ -103,13 +107,13 @@ Extend the test fixtures and page objects, so that they provide
 - selector for row count, and
 - a new page object along fixture for the sidemenu
 
-The solution is available in the branch `solution-3-advanced`.
+The solution is available in the branch `3-advanced`.
 
 ## 4. Bonus: nested `describe`
 
 You can nest the `describe` commmands. For example, you could have another `beforeEach` for the customer-related tests, where you click on the customers button.
 
-The solution is available in the branch `solution-3-advanced`.
+The solution is available in the branch `3-advanced`.
 
 ## 5. Network stubbing
 
@@ -149,7 +153,7 @@ test("should mock customers request with Isabell Sykora", async ({
   customersPage,
   sidemenuPage,
 }) => {
-  await page.click("data-testid=tgl-mock-customers");
+  await page.getByTestId("tgl-mock-customers").click();
   page.route("https://api.eternal-holidays.net/customers?page=1", (req) =>
     req.fulfill({
       contentType: "application/json",
@@ -157,7 +161,7 @@ test("should mock customers request with Isabell Sykora", async ({
         content: [
           {
             firstname: "Isabell",
-            lastname: "Sykora",
+            name: "Sykora",
             birthdate: "1984-05-30",
             country: "AT",
           },
@@ -204,10 +208,10 @@ import test, { expect } from "@playwright/test";
 test.describe("Authentication", () => {
   test("auth0 authenticates when already signed in", async ({ page }) => {
     await page.goto("");
-    await page.click("data-testid=btn-sign-in");
-    await page.fill("input[name=email]", "john.list@host.com");
-    await page.fill("input[name=password]", "John List");
-    await page.click("button[type=submit]");
+    await page.getByTestId("btn-sign-in").click();
+    await page.locator("input[name=email]").fill("john.list@host.com");
+    await page.locator("input[name=password]").fill("John List");
+    await page.locator("button[type=submit]").click();
     await page
       .locator("data-testid=p-username", { hasText: "John List" })
       .waitFor();
@@ -250,17 +254,21 @@ In the project's root, create a new file called **global-setup.ts**. Playwright 
 ```typescript
 import { chromium, FullConfig } from "@playwright/test";
 
-async function globalSetup() {
+async function globalSetup(config: FullConfig) {
+  const { baseURL } = config.projects[0].use;
+
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  await page.goto("");
-  await page.click("data-testid=btn-sign-in");
-  await page.fill("input[name=email]", "john.list@host.com");
-  await page.fill("input[name=password]", "John List");
-  await page.click("button[type=submit]");
+  await page.goto(baseURL || "");
+
+  await page.getByTestId("btn-sign-in").click();
+  await page.locator("input[name=email]").fill("john.list@host.com");
+  await page.locator("input[name=password]").fill("John List");
+  await page.locator("button[type=submit]").click();
   await page
     .locator("data-testid=p-username", { hasText: "John List" })
     .waitFor();
+
   await page.context().storageState({ path: "john-list.json" });
   await page.close();
 }
@@ -277,7 +285,6 @@ In the _playwright.config.ts_, add the `globalSetup` property, pointing to the n
 ```typescript
 const config: PlaywrightTestConfig = {
   globalSetup: require.resolve("./global-setup.ts"),
-  testDir: "./tests",
   // ...
 };
 ```
@@ -299,15 +306,13 @@ test.describe("cached authentication", () => {
 
     test("verify saved authentication", async ({ page }) => {
       await page.goto("");
-      await expect(page.locator("data-testid=p-username")).toContainText(
-        "John List"
-      );
+      await expect(page.getByTestId("p-username")).toContainText("John List");
     });
   });
 
   test("", async ({ page }) => {
     await page.goto("");
-    await expect(page.locator("data-testid=btn-sign-in")).toBeVisible();
+    await expect(page.getByTestId("btn-sign-in")).toBeVisible();
   });
 });
 ```

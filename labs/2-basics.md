@@ -1,3 +1,12 @@
+- [1. Warm-Up](#1-warm-up)
+- [2. Home greeting](#2-home-greeting)
+- [3. Count customers](#3-count-customers)
+- [4. Verify customer names](#4-verify-customer-names)
+- [5. Add a new customer](#5-add-a-new-customer)
+- [6. Rename a customer](#6-rename-a-customer)
+- [7. Delete a customer](#7-delete-a-customer)
+- [8. Spot the error](#8-spot-the-error)
+
 In this lab, we write the type of tests that should be sufficient to cover 80% of our needs.
 
 Based on the slides, you should have all information available. Together with the official documentation on "https://playwright.dev/" try to come up with the solution on your own and only if you don't manage to do it, look it up.
@@ -46,7 +55,7 @@ Add the test to the existing test file.
 
 ```typescript
 test("greeting on home", async ({ page }) => {
-  await expect(page.locator("data-testid=txt-greeting-1")).toContainText(
+  await expect(page.getByTestId("txt-greeting-1")).toContainText(
     "imaginary travel agency"
   );
 });
@@ -66,8 +75,8 @@ Write a test that verifies that the customers list has exactly 10 rows.
 
 ```typescript
 test("customers list shows 10 rows", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
-  const locator = page.locator("data-testid=row-customer");
+  await page.getByTestId("btn-customers").click();
+  const locator = page.getByTestId("row-customer");
   await expect(locator).toHaveCount(10);
 });
 ```
@@ -86,7 +95,7 @@ After you managed, to count the customer rows, the next should pick the 3rd and 
 
 ```typescript
 test("3rd customer is Brandt, Hugo; 10th is Janáček, Jan", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
+  await page.getByTestId("btn-customers").click();
   const nameLocator = page.locator(
     "data-testid=row-customer >> data-testid=name"
   );
@@ -112,14 +121,14 @@ After the customer has been added, make sure that he shows up on the first page.
 
 ```typescript
 test("add Nicholas Dimou as new customer", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
-  await page.click("data-testid=btn-add-customer");
-  await page.fill("data-testid=inp-firstname", "Nicholas");
-  await page.fill("data-testid=inp-lastname", "Dimou");
-  await page.click("data-testid=inp-country");
-  await page.click("text=Greece");
-  await page.fill("data-testid=inp-birthdate", "1.2.1978");
-  await page.click("data-testid=btn-submit");
+  await page.getByTestId("btn-customers").click();
+  await page.getByTestId("btn-add-customer").click();
+  await page.getByTestId("inp-firstname").fill("Nicholas");
+  await page.getByTestId("inp-lastname").fill("Dimou");
+  await page.getByTestId("inp-country").click();
+  await page.getByTestId("text=Greece").click();
+  await page.getByTestId("inp-birthdate").fill("1.2.1978");
+  await page.getByTestId("btn-submit").click();
 
   await expect(
     page.locator("data-testid=row-customer", {
@@ -141,17 +150,17 @@ Pick "Latitia, Bellitissa" and rename her to "Laetitia, Bellitissa-Wagner".
 
 ```typescript
 test("rename Latitia to Laetitia", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
+  await page.getByTestId("btn-customers").click();
 
   await page
     .locator("[data-testid=row-customer]", { hasText: "Latitia" })
-    .locator("data-testid=btn-edit")
+    .getByTestId("btn-edit")
     .click();
-  await page.fill("data-testid=inp-firstname", "Laetitia");
-  await page.fill("data-testid=inp-lastname", "Bellitissa-Wagner");
-  await page.click("data-testid=inp-country");
-  await page.click("text=Austria");
-  await page.click("data-testid=btn-submit");
+  await page.getByTestId("inp-firstname").fill("Laetitia");
+  await page.getByTestId("inp-lastname").fill("Bellitissa-Wagner");
+  await page.getByTestId("inp-country").click();
+  await page.getByText("Austria").click();
+  await page.getByTestId("btn-submit").click();
 
   await expect(
     page.locator("data-testid=row-customer", { hasText: "Bellitissa-Wagner" })
@@ -175,16 +184,16 @@ The delete button opens the confirm dialog of the browser. Look up in the offici
 
 ```typescript
 test("delete Knut Eggen", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
+  await page.getByTestId("btn-customers").click();
 
   await page
     .locator("[data-testid=row-customer]", { hasText: "Eggen, Knut" })
-    .locator("data-testid=btn-edit")
+    .getByTestId("btn-edit")
     .click();
   page.on("dialog", (dialog) => dialog.accept());
-  await page.click("data-testid=btn-delete");
+  await page.getByTestId("btn-delete").click();
 
-  const locator = page.locator("data-testid=row-customer");
+  const locator = page.getByTestId("row-customer");
   await expect(locator).toHaveCount(10);
 
   await expect(
@@ -200,16 +209,18 @@ test("delete Knut Eggen", async ({ page }) => {
 The following test fails. Find out why and fix it.
 
 ```typescript
-test("select same country again", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
+test("select the same country again", async ({ page }) => {
+  await page.getByTestId("btn-customers").click();
 
-  await page.click(
-    "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
-  );
-  await page.click("data-testid=inp-country");
-  await page.locator("text=Austria").click();
+  await page
+    .locator(
+      "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
+    )
+    .click();
+  await page.getByTestId("inp-country").click();
+  await page.getByText("Austria").click();
 
-  await page.click("data-testid=btn-submit");
+  await page.getByTestId("btn-submit").click();
 });
 ```
 
@@ -218,16 +229,17 @@ test("select same country again", async ({ page }) => {
 <summary>Solution</summary>
 
 ```typescript
-test("select same country again", async ({ page }) => {
-  await page.click("data-testid=btn-customers");
+test("select the same country again", async ({ page }) => {
+  await page.getByTestId("btn-customers").click();
 
-  await page.click(
-    "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
-  );
-  await page.click("data-testid=inp-country");
+  await page
+    .locator(
+      "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
+    )
+    .click();
+  await page.getByTestId("inp-country").click();
   await page.locator("mat-option >> text=Austria").click();
-
-  await page.click("data-testid=btn-submit");
+  await page.getByTestId("btn-submit").click();
 });
 ```
 
