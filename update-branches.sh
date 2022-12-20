@@ -2,7 +2,7 @@ set -e
 
 git checkout main
 
-branches=(master 1-start 2-basics 3-advanced 4-beyond-e2e)
+branches=(main 1-start 2-basics 3-advanced 4-beyond-e2e)
 previous=
 current=
 
