@@ -13,7 +13,6 @@ for branch in ${branches[*]}; do
 
   if [ ! $current = "" ]; then
     git checkout $current
-    git tag -d $(git tag | grep -E '.')
     git merge $previous -m merge
   fi
 done
