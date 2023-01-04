@@ -38,7 +38,7 @@ bootstrapApplication(AppComponent, {
     provideRouter(appRoutes),
 
     provideStore(),
-    provideEffects([]),
+    provideEffects(),
     provideStoreDevtools(),
 
     ...securityProvider,

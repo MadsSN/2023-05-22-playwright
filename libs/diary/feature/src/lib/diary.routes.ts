@@ -8,7 +8,7 @@ import { DiariesComponent } from './diaries/diaries.component';
 export const diaryRoutes: Routes = [
   {
     path: '',
-    providers: [provideState(diaryFeature), provideEffects([DiaryEffects])],
+    providers: [provideState(diaryFeature), provideEffects(DiaryEffects)],
     component: DiariesComponent,
   },
 ];

@@ -10,7 +10,7 @@ export const bookingsRoutes: Routes = [
     path: '',
     providers: [
       provideState(bookingsFeature),
-      provideEffects([BookingsEffects]),
+      provideEffects(BookingsEffects),
     ],
     component: OverviewComponent,
   },

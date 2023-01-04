@@ -16,7 +16,7 @@ export const customersRoutes: Routes = [
     component: CustomersRootComponent,
     providers: [
       provideState(customersFeature),
-      provideEffects([CustomersEffects]),
+      provideEffects(CustomersEffects),
     ],
     children: [
       {

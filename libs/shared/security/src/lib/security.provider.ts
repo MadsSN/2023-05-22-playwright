@@ -5,5 +5,5 @@ import { securityFeature } from './security.reducer';
 
 export const securityProvider = [
   provideState(securityFeature),
-  provideEffects([SecurityEffects]),
+  provideEffects(SecurityEffects),
 ];

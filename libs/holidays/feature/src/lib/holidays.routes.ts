@@ -11,7 +11,7 @@ export const holidaysRoutes: Routes = [
     path: '',
     providers: [
       provideState(holidaysFeature),
-      provideEffects([HolidaysEffects]),
+      provideEffects(HolidaysEffects),
     ],
     children: [
       {
