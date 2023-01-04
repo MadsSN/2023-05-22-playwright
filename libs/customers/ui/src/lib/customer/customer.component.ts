@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { RouterLinkWithHref } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -23,7 +23,7 @@ import { NgIf } from '@angular/common';
     FormlyMatDatepickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    RouterLinkWithHref,
+    RouterLink,
     NgIf,
   ],
 })

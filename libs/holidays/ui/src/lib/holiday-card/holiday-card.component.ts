@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BlinkerDirective } from '@eternal/shared/ui';
 import { NgClass, NgIf } from '@angular/common';
-import { RouterLinkWithHref } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'eternal-holiday-card',
@@ -19,7 +19,7 @@ import { RouterLinkWithHref } from '@angular/router';
     MatIconModule,
     NgClass,
     NgIf,
-    RouterLinkWithHref,
+    RouterLink,
   ],
 })
 export class HolidayCardComponent {

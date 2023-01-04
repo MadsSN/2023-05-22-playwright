@@ -15,7 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomerPipe } from '../customer.pipe';
-import { RouterLinkWithHref } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { DatePipe, NgIf } from '@angular/common';
 
 export interface CustomerWithSelected extends Customer {
@@ -38,7 +38,7 @@ export interface CustomersViewModel {
     MatPaginatorModule,
     MatTableModule,
     MatSlideToggleModule,
-    RouterLinkWithHref,
+    RouterLink,
     NgIf,
     DatePipe,
   ],

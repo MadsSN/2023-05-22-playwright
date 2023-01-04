@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { SecurityService } from '@eternal/shared/security';
-import { RouterLinkWithHref } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
@@ -9,7 +9,7 @@ import { AsyncPipe, NgIf } from '@angular/common';
   templateUrl: './sidemenu.component.html',
   styleUrls: ['./sidemenu.component.scss'],
   standalone: true,
-  imports: [MatButtonModule, RouterLinkWithHref, AsyncPipe, NgIf],
+  imports: [MatButtonModule, RouterLink, AsyncPipe, NgIf],
 })
 export class SidemenuComponent {
   #securityService = inject(SecurityService);
