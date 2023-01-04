@@ -1,4 +1,4 @@
-import { Component, Inject, NgModule } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogModule,
@@ -17,17 +17,10 @@ export interface ConfirmationData {
     <div mat-dialog-actions>
       <button mat-button mat-dialog-close>OK</button>
     </div>`,
-})
-export class ConfirmationComponent {
-  constructor(
-    public dialogRef: MatDialogRef<ConfirmationComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ConfirmationData
-  ) {}
-}
-
-@NgModule({
-  declarations: [ConfirmationComponent],
-  exports: [ConfirmationComponent],
+  standalone: true,
   imports: [MatDialogModule, MatButtonModule],
 })
-export class ConfirmationComponentModule {}
+export class ConfirmationComponent {
+  dialogRef = inject(MatDialogRef<ConfirmationComponent>);
+  data = inject(MAT_DIALOG_DATA);
+}

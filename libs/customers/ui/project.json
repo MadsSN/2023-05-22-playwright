@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/customers/ui/src/**/*.ts",
-          "libs/customers/ui/src/**/*.html"
+          "libs/customers/ui/**/*.ts",
+          "libs/customers/ui/**/*.html"
         ]
       }
     }

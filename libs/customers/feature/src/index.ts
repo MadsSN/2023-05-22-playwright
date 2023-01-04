@@ -1,2 +1,4 @@
-export * from './lib/customers-feature.module';
-export { CustomerInterceptor } from './lib/interceptor/customers.interceptor';
+import { fromCustomers } from './lib/+state/customers.selectors';
+
+export const selectSelectedCustomer = fromCustomers.selectSelectedCustomer;
+export { customersRoutes } from './lib/customers.routes';

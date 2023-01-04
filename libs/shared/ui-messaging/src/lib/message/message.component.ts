@@ -2,6 +2,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { Component } from '@angular/core';
 import { Message } from './message';
 import { MessageStore } from './message.store';
+import { MatIconModule } from '@angular/material/icon';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 
 @Component({
   selector: 'eternal-message',
@@ -19,6 +21,8 @@ import { MessageStore } from './message.store';
       }
     `,
   ],
+  standalone: true,
+  imports: [MatIconModule, NgClass, NgForOf, NgIf],
   animations: [
     trigger('myTrigger', [
       transition(':enter', [
@@ -35,6 +39,7 @@ import { MessageStore } from './message.store';
 export class MessageComponent {
   flag = true;
   state = 'fadeInFlash';
+
   constructor(messageStore: MessageStore) {
     messageStore.messages$.subscribe((message) => {
       this.messages.push(message);

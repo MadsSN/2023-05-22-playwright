@@ -1,4 +1,4 @@
-@import "~@angular/material/theming";
+@import "@angular/material/theming";
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -53,7 +53,10 @@ $candy-app-theme: mat-light-theme(
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: whitesmoke;
+  background-image: url("/assets/large-bg.jpg");
+  background-image: linear-gradient(white, white), url("/assets/large-bg.jpg");
+  background-size: cover;
+  background-blend-mode: saturation;
 }
 
 a, .link {

@@ -1,17 +1,14 @@
 {
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
     "bookings": "libs/bookings",
-    "core-local-storage-state": "libs/core/local-storage-state",
-    "customers-api": "libs/customers/api",
-    "customers-data": "libs/customers/data",
     "customers-feature": "libs/customers/feature",
     "customers-model": "libs/customers/model",
     "customers-ui": "libs/customers/ui",
     "diary-feature": "libs/diary/feature",
     "eternal": "apps/eternal",
     "eternal-e2e": "apps/eternal-e2e",
-    "holidays-data": "libs/holidays/data",
     "holidays-feature": "libs/holidays/feature",
     "holidays-model": "libs/holidays/model",
     "holidays-ui": "libs/holidays/ui",

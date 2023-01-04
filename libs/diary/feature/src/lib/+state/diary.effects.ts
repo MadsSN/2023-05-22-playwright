@@ -1,45 +1,46 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, switchMap } from 'rxjs/operators';
-import * as actions from './diary.actions';
+import { diaryActions } from './diary.actions';
 import { DiaryResponse, DiaryWithEntries } from './diary.reducer';
 
 @Injectable()
 export class DiaryEffects {
-  load$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.load),
-      switchMap(() => this.httpClient.get<DiaryResponse>('/diary')),
-      map((diaryResponse) => actions.loadSuccess({ diaryResponse }))
-    )
-  );
+  #actions$ = inject(Actions);
+  #httpClient = inject(HttpClient);
 
-  add$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.add),
+  load$ = createEffect(() => {
+    return this.#actions$.pipe(
+      ofType(diaryActions.load),
+      switchMap(() => this.#httpClient.get<DiaryResponse>('/diary')),
+      map((diaryResponse) => diaryActions.loadSuccess({ diaryResponse }))
+    );
+  });
+
+  add$ = createEffect(() => {
+    return this.#actions$.pipe(
+      ofType(diaryActions.add),
       switchMap(({ title, description }) =>
-        this.httpClient.post<DiaryWithEntries>('/diary', {
+        this.#httpClient.post<DiaryWithEntries>('/diary', {
           title,
           description,
         })
       ),
-      map((diaryWithEntries) => actions.addSuccess({ diaryWithEntries }))
-    )
-  );
+      map((diaryWithEntries) => diaryActions.addSuccess({ diaryWithEntries }))
+    );
+  });
 
-  addEntry$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(actions.addEntry),
+  addEntry$ = createEffect(() => {
+    return this.#actions$.pipe(
+      ofType(diaryActions.addEntry),
       switchMap(({ diaryId, content }) =>
-        this.httpClient.post('/diary', {
+        this.#httpClient.post('/diary', {
           diaryId,
           content,
         })
       ),
-      map(() => actions.addEntrySuccess())
-    )
-  );
-
-  constructor(private actions$: Actions, private httpClient: HttpClient) {}
+      map(() => diaryActions.addEntrySuccess())
+    );
+  });
 }

@@ -10,13 +10,12 @@ export const countries = [
   ['DK', 'Denmark'],
   ['ES', 'Spain'],
   ['FR', 'France'],
-  ['GR', 'Greece'],
   ['HU', 'Hungary'],
   ['IN', 'India'],
   ['IT', 'Italy'],
   ['NL', 'Netherlands'],
   ['NO', 'Norway'],
-  ['RU', 'Russia'], 
+  ['RU', 'Russia'],
   ['SE', 'Sweden'],
   ['UK', 'United Kingdom'],
   ['US', 'USA'],
@@ -40,8 +39,8 @@ export const masterFeature = createFeature({
   reducer: createReducer<MasterState>(initialState),
 });
 
-export const fromMaster = {
-  selectCountries: createSelector(masterFeature.selectCountries, (countries) =>
+export const selectCountries = createSelector(
+  masterFeature.selectCountries,
+  (countries) =>
     countries.map(({ code, name }) => ({ value: code, label: name }))
-  ),
-};
+);

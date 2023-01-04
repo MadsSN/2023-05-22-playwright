@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/config/src/**/*.ts",
-          "libs/shared/config/src/**/*.html"
+          "libs/shared/config/**/*.ts",
+          "libs/shared/config/**/*.html"
         ]
       }
     }

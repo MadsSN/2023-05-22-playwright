@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/ui-messaging/src/**/*.ts",
-          "libs/shared/ui-messaging/src/**/*.html"
+          "libs/shared/ui-messaging/**/*.ts",
+          "libs/shared/ui-messaging/**/*.html"
         ]
       }
     }

@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/shared/master-data/src/**/*.ts",
-          "libs/shared/master-data/src/**/*.html"
+          "libs/shared/master-data/**/*.ts",
+          "libs/shared/master-data/**/*.html"
         ]
       }
     }

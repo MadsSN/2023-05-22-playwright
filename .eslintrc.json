@@ -15,7 +15,6 @@
               {
                 "sourceTag": "type:app",
                 "onlyDependOnLibsWithTags": [
-                  "domain:core",
                   "type:feature",
                   "type:shared:config",
                   "type:shared:http",
@@ -26,15 +25,7 @@
               },
               {
                 "sourceTag": "domain:bookings",
-                "onlyDependOnLibsWithTags": [
-                  "domain:bookings",
-                  "domain:customers:api",
-                  "domain:shared"
-                ]
-              },
-              {
-                "sourceTag": "domain:core",
-                "onlyDependOnLibsWithTags": ["domain:shared"]
+                "onlyDependOnLibsWithTags": ["domain:bookings", "domain:shared"]
               },
               {
                 "sourceTag": "domain:customers",
@@ -42,10 +33,6 @@
                   "domain:customers",
                   "domain:shared"
                 ]
-              },
-              {
-                "sourceTag": "domain:customers:api",
-                "onlyDependOnLibsWithTags": ["domain:customers"]
               },
               {
                 "sourceTag": "domain:diary",
@@ -56,18 +43,8 @@
                 "onlyDependOnLibsWithTags": ["domain:holidays", "domain:shared"]
               },
               {
-                "sourceTag": "type:api",
-                "onlyDependOnLibsWithTags": [
-                  "type:feature",
-                  "type:data",
-                  "type:ui",
-                  "type:model"
-                ]
-              },
-              {
                 "sourceTag": "type:feature",
                 "onlyDependOnLibsWithTags": [
-                  "type:api",
                   "type:data",
                   "type:ui",
                   "type:model",
@@ -87,6 +64,7 @@
                   "type:shared:config",
                   "type:shared:ui-messaging",
                   "type:shared:ngrx-utils",
+                  "type:shared:testing",
                   "type:shared:util"
                 ]
               },
@@ -99,7 +77,10 @@
                   "type:shared:util"
                 ]
               },
-              { "sourceTag": "type:ui", "bannedExternalImports": ["@ngrx/**"] },
+              {
+                "sourceTag": "type:ui",
+                "bannedExternalImports": ["@ngrx/**"]
+              },
               {
                 "sourceTag": "type:shared:http",
                 "onlyDependOnLibsWithTags": [
@@ -125,6 +106,10 @@
       "files": ["*.js", "*.jsx"],
       "extends": ["plugin:@nrwl/nx/javascript"],
       "rules": {}
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/strict"]
     }
   ]
 }

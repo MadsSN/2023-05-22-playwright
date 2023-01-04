@@ -1,12 +1,10 @@
-import { CommonModule } from '@angular/common';
-import { Component, NgModule } from '@angular/core';
-import {
-  CustomersComponentModule,
-  CustomersViewModel,
-} from '@eternal/customers/ui';
-import { map } from 'rxjs/operators';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { CustomersComponent, CustomersViewModel } from '@eternal/customers/ui';
+import { createSelector, Store } from '@ngrx/store';
+import { customersActions } from '../+state/customers.actions';
+import { fromCustomers } from '../+state/customers.selectors';
 import { Observable } from 'rxjs';
-import { CustomersRepository } from '@eternal/customers/data';
 
 @Component({
   template: ` <eternal-customers
@@ -16,35 +14,28 @@ import { CustomersRepository } from '@eternal/customers/data';
     (setUnselected)="setUnselected()"
     (switchPage)="switchPage($event)"
   ></eternal-customers>`,
+  standalone: true,
+  imports: [CustomersComponent, NgIf, AsyncPipe],
 })
 export class CustomersContainerComponent {
-  viewModel$: Observable<CustomersViewModel> =
-    this.customersRepository.pagedCustomers$.pipe(
-      map((pagedCustomers) => ({
-        customers: pagedCustomers.customers,
-        pageIndex: pagedCustomers.page - 1,
-        length: pagedCustomers.total,
-      }))
-    );
-
-  constructor(private customersRepository: CustomersRepository) {}
+  #store = inject(Store);
+  viewModel$: Observable<CustomersViewModel> = this.#store.select(
+    createSelector(fromCustomers.selectPagedCustomers, (pagedCustomers) => ({
+      customers: pagedCustomers.customers,
+      pageIndex: pagedCustomers.page - 1,
+      length: pagedCustomers.total,
+    }))
+  );
 
   setSelected(id: number) {
-    this.customersRepository.select(id);
+    this.#store.dispatch(customersActions.select({ id }));
   }
 
   setUnselected() {
-    this.customersRepository.unselect();
+    this.#store.dispatch(customersActions.unselect());
   }
 
   switchPage(page: number) {
-    this.customersRepository.get(page + 1);
+    console.log('switch to page ' + page + ' is not implemented');
   }
 }
-
-@NgModule({
-  declarations: [CustomersContainerComponent],
-  exports: [CustomersContainerComponent],
-  imports: [CommonModule, CustomersComponentModule],
-})
-export class CustomersContainerComponentModule {}

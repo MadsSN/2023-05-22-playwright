@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
-import { MatStepper } from '@angular/material/stepper';
+import { Component, inject, ViewChild, ViewEncapsulation } from '@angular/core';
+import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { Router } from '@angular/router';
-import { BasicData } from './basic/basic.component';
-import { DetailData } from './detail.component';
-import { InterestsData } from './interests.component';
+import { BasicComponent, BasicData } from './basic/basic.component';
+import { DetailComponent, DetailData } from './detail.component';
+import { InterestsComponent, InterestsData } from './interests.component';
+import { MatButtonModule } from '@angular/material/button';
+import { TermsComponent } from '../terms.component';
 
 interface SignUpData {
   basic: BasicData;
@@ -15,7 +17,16 @@ interface SignUpData {
 @Component({
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  standalone: true,
+  imports: [
+    MatStepperModule,
+    MatButtonModule,
+    BasicComponent,
+    DetailComponent,
+    TermsComponent,
+    InterestsComponent,
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SignUpComponent {
   @ViewChild('stepper') stepper: MatStepper | undefined;
@@ -32,18 +43,19 @@ export class SignUpComponent {
       zip: '',
       city: '',
       country: '',
-      birthdate: new Date(0)
+      birthdate: new Date(0),
     },
     interests: {
       continents: [],
       travelVariation: [],
       favouredDuration: '',
       travelType: '',
-      comment: ''
-    }
+      comment: '',
+    },
   };
 
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  #httpClient = inject(HttpClient);
+  #router = inject(Router);
 
   nextBasic(basicData: BasicData) {
     if (!this.stepper) {
@@ -72,16 +84,19 @@ export class SignUpComponent {
 
   finish() {
     const { email, password, firstname, name } = this.signUpData.detail;
-    this.httpClient
+    this.#httpClient
       .post<{ userId: number }>('/security/sign-up', {
         email,
         password,
         firstname,
-        name
+        name,
       })
       .subscribe(({ userId }) => {
-        const urlTree = this.router.createUrlTree(['/security/activate', userId]);
-        this.router.navigateByUrl(urlTree);
+        const urlTree = this.#router.createUrlTree([
+          '/security/activate',
+          userId,
+        ]);
+        this.#router.navigateByUrl(urlTree);
       });
   }
 }

@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/holidays/model/src/**/*.ts",
-          "libs/holidays/model/src/**/*.html"
+          "libs/holidays/model/**/*.ts",
+          "libs/holidays/model/**/*.html"
         ]
       }
     }

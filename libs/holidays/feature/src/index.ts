@@ -1,2 +1,1 @@
-export * from './lib/holidays-feature.module';
-export { HolidaysInterceptor } from './lib/interceptors/holidays.interceptor';
+export { holidaysRoutes } from './lib/holidays.routes';
