@@ -1,11 +1,12 @@
 {
+  "name": "user",
   "projectType": "library",
   "sourceRoot": "libs/user/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/user"],
+      "outputs": ["{workspaceRoot}/coverage/libs/user"],
       "options": {
         "jestConfig": "libs/user/jest.config.ts",
         "passWithNoTests": true

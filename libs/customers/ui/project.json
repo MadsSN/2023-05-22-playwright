@@ -1,11 +1,12 @@
 {
+  "name": "customers-ui",
   "projectType": "library",
   "sourceRoot": "libs/customers/ui/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/customers/ui"],
+      "outputs": ["{workspaceRoot}/coverage/libs/customers/ui"],
       "options": {
         "jestConfig": "libs/customers/ui/jest.config.ts",
         "passWithNoTests": true

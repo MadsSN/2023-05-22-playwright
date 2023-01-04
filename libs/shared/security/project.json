@@ -1,11 +1,12 @@
 {
+  "name": "shared-security",
   "projectType": "library",
   "sourceRoot": "libs/shared/security/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/security"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/security"],
       "options": {
         "jestConfig": "libs/shared/security/jest.config.ts",
         "passWithNoTests": true

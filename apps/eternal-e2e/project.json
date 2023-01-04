@@ -1,4 +1,5 @@
 {
+  "name": "eternal-e2e",
   "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "sourceRoot": "apps/eternal-e2e/src",
   "projectType": "application",

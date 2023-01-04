@@ -1,11 +1,12 @@
 {
+  "name": "diary-feature",
   "projectType": "library",
   "sourceRoot": "libs/diary/feature/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/diary/feature"],
+      "outputs": ["{workspaceRoot}/coverage/libs/diary/feature"],
       "options": {
         "jestConfig": "libs/diary/feature/jest.config.ts",
         "passWithNoTests": true

@@ -1,4 +1,5 @@
 {
+  "name": "bookings",
   "$schema": "..\\..\\node_modules\\nx\\schemas\\project-schema.json",
   "projectType": "library",
   "sourceRoot": "libs/bookings/src",
@@ -6,7 +7,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/bookings"],
+      "outputs": ["{workspaceRoot}/coverage/libs/bookings"],
       "options": {
         "jestConfig": "libs/bookings/jest.config.ts",
         "passWithNoTests": true

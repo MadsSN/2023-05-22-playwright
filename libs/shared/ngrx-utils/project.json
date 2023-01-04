@@ -1,11 +1,12 @@
 {
+  "name": "shared-ngrx-utils",
   "projectType": "library",
   "sourceRoot": "libs/shared/ngrx-utils/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/ngrx-utils"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/ngrx-utils"],
       "options": {
         "jestConfig": "libs/shared/ngrx-utils/jest.config.ts",
         "passWithNoTests": true

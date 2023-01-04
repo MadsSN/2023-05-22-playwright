@@ -1,11 +1,12 @@
 {
+  "name": "holidays-ui",
   "projectType": "library",
   "sourceRoot": "libs/holidays/ui/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/holidays/ui"],
+      "outputs": ["{workspaceRoot}/coverage/libs/holidays/ui"],
       "options": {
         "jestConfig": "libs/holidays/ui/jest.config.ts",
         "passWithNoTests": true

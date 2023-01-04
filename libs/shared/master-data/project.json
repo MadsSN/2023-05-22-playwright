@@ -1,11 +1,12 @@
 {
+  "name": "shared-master-data",
   "projectType": "library",
   "sourceRoot": "libs/shared/master-data/src",
   "prefix": "eternal",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/master-data"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/master-data"],
       "options": {
         "jestConfig": "libs/shared/master-data/jest.config.ts",
         "passWithNoTests": true
