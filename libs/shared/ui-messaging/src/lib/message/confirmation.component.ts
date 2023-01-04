@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogModule,
-  MatDialogRef,
-} from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 export interface ConfirmationData {
   message: string;

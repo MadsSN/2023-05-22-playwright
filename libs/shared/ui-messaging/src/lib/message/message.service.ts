@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MessageStore } from './message.store';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ConfirmationComponent } from './confirmation.component';
 import { map, Observable } from 'rxjs';
 

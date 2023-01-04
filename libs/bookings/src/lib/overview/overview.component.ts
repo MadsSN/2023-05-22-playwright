@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource, MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 import { bookingsActions } from '../+state/bookings.actions';

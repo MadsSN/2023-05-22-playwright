@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BasicComponent, BasicData } from './basic/basic.component';
 import { DetailComponent, DetailData } from './detail.component';
 import { InterestsComponent, InterestsData } from './interests.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { TermsComponent } from '../terms.component';
 
 interface SignUpData {

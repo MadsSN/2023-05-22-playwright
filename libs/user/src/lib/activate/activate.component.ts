@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { formly } from 'ngx-formly-helpers';
 import { NgIf } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 @Component({
   selector: 'eternal-activate',

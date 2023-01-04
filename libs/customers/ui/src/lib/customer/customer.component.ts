@@ -4,7 +4,7 @@ import { Customer } from '@eternal/customers/model';
 import { Options } from '@eternal/shared/form';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { formly } from 'ngx-formly-helpers';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';

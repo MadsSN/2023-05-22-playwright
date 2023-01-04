@@ -5,7 +5,7 @@ import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { formly } from 'ngx-formly-helpers';
 import { AsyncPipe, NgIf } from '@angular/common';
 import { FormlyMaterialModule } from '@ngx-formly/material';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 @Component({
   selector: 'eternal-sign-in',
