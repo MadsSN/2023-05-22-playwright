@@ -60,7 +60,7 @@
     "@angular-eslint/eslint-plugin": "15.0.0",
     "@angular-eslint/eslint-plugin-template": "15.0.0",
     "@angular-eslint/template-parser": "15.0.0",
-    "@angular/cli": "~14.2.0",
+    "@angular/cli": "~15.0.0",
     "@angular/compiler-cli": "15.0.4",
     "@angular/language-service": "15.0.4",
     "@nrwl/cli": "15.4.4",
@@ -92,4 +92,3 @@
     "typescript": "4.8.4"
   }
 }
-
