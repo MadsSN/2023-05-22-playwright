@@ -1,21 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { MatLegacyTableDataSource as MatTableDataSource, MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
-import { bookingsActions } from '../+state/bookings.actions';
-import { Booking } from '../+state/bookings.reducer';
-import { fromBookings } from '../+state/bookings.selectors';
-import { DatePipe } from '@angular/common';
+import { Component, inject, OnInit } from "@angular/core";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { Store } from "@ngrx/store";
+import { filter } from "rxjs";
+import { bookingsActions } from "../+state/bookings.actions";
+import { Booking } from "../+state/bookings.reducer";
+import { fromBookings } from "../+state/bookings.selectors";
+import { DatePipe } from "@angular/common";
 
 @Component({
-  selector: 'eternal-overview',
-  templateUrl: './overview.component.html',
+  selector: "eternal-overview",
+  templateUrl: "./overview.component.html",
   standalone: true,
-  imports: [MatTableModule, DatePipe],
+  imports: [MatTableModule, DatePipe]
 })
 export class OverviewComponent implements OnInit {
-  userName = '';
-  displayedColumns = ['holidayId', 'date', 'status', 'comment'];
+  userName = "";
+  displayedColumns = ["holidayId", "date", "status", "comment"];
   dataSource = new MatTableDataSource<Booking>([]);
 
   #store = inject(Store);

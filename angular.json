@@ -20,7 +20,6 @@
     "shared-testing": "libs/shared/testing",
     "shared-ui": "libs/shared/ui",
     "shared-ui-messaging": "libs/shared/ui-messaging",
-    "shared-util": "libs/shared/util",
-    "user": "libs/user"
+    "shared-util": "libs/shared/util"
   }
 }

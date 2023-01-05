@@ -2,43 +2,33 @@ import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { securityActions } from './security.actions';
 import { User } from './security.reducer';
 import { fromSecurity } from './security.selectors';
+import { securityActions } from './security.actions';
 
 @Injectable({ providedIn: 'root' })
 export class SecurityService {
-  #store = inject(Store);
+  private store = inject(Store);
 
-  getLoaded$(): Observable<boolean> {
-    return this.#store.select(fromSecurity.selectLoaded);
-  }
+  readonly loaded$ = this.store.select(fromSecurity.selectLoaded);
 
-  getLoadedUser$(): Observable<User> {
-    return combineLatest([
-      this.#store.select(fromSecurity.selectLoaded),
-      this.#store.select(fromSecurity.selectUser),
-    ]).pipe(
-      filter(([loaded]) => loaded),
-      map(([, user]) => user),
-      this.#verifyUser
-    );
-  }
+  readonly loadedUser$ = combineLatest([
+    this.store.select(fromSecurity.selectLoaded),
+    this.store.select(fromSecurity.selectUser)
+  ]).pipe(
+    filter(([loaded]) => loaded),
+    map(([, user]) => user),
+    this.#verifyUser
+  );
 
-  getSignedIn$(): Observable<boolean> {
-    return this.#store.select(fromSecurity.selectSignedIn);
-  }
+  readonly signedIn$ = this.store.select(fromSecurity.selectSignedIn);
 
-  load() {
-    this.#store.dispatch(securityActions.loadUser());
-  }
-
-  signIn(email: string, password: string) {
-    this.#store.dispatch(securityActions.signInUser({ email, password }));
+  signIn() {
+    this.store.dispatch(securityActions.signIn());
   }
 
   signOut() {
-    this.#store.dispatch(securityActions.signOutUser());
+    this.store.dispatch(securityActions.signOut());
   }
 
   #verifyUser(user$: Observable<undefined | User>) {

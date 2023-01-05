@@ -1,2 +1,2 @@
-export { securityProvider } from './lib/security.provider';
+export { securityProviders } from './lib/security.providers';
 export { SecurityService } from './lib/security.service';

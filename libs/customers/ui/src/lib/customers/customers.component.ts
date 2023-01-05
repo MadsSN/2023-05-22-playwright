@@ -3,24 +3,25 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  Output,
-} from '@angular/core';
+  Output
+} from "@angular/core";
 import {
-  MatLegacySlideToggleChange as MatSlideToggleChange,
-  MatLegacySlideToggleModule as MatSlideToggleModule,
-} from '@angular/material/legacy-slide-toggle';
-import { MatLegacyTableDataSource as MatTableDataSource, MatLegacyTableModule as MatTableModule } from '@angular/material/legacy-table';
-import { Customer } from '@eternal/customers/model';
-import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
-import { CustomerPipe } from '../customer.pipe';
-import { RouterLink } from '@angular/router';
-import { DatePipe, NgIf } from '@angular/common';
+  MatSlideToggleChange,
+  MatSlideToggleModule
+} from "@angular/material/slide-toggle";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { Customer } from "@eternal/customers/model";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { CustomerPipe } from "../customer.pipe";
+import { RouterLink } from "@angular/router";
+import { DatePipe, NgIf } from "@angular/common";
 
 export interface CustomerWithSelected extends Customer {
   selected: boolean;
 }
+
 export interface CustomersViewModel {
   customers: CustomerWithSelected[];
   pageIndex: number;
@@ -28,8 +29,8 @@ export interface CustomersViewModel {
 }
 
 @Component({
-  selector: 'eternal-customers',
-  templateUrl: './customers.component.html',
+  selector: "eternal-customers",
+  templateUrl: "./customers.component.html",
   standalone: true,
   imports: [
     MatIconModule,
@@ -40,8 +41,8 @@ export interface CustomersViewModel {
     MatSlideToggleModule,
     RouterLink,
     NgIf,
-    DatePipe,
-  ],
+    DatePipe
+  ]
 })
 export class CustomersComponent implements OnChanges {
   @Input() viewModel: CustomersViewModel | undefined;
@@ -49,7 +50,7 @@ export class CustomersComponent implements OnChanges {
   @Output() setUnselected = new EventEmitter<number>();
   @Output() switchPage = new EventEmitter<number>();
 
-  displayedColumns = ['name', 'country', 'birthdate', 'action'];
+  displayedColumns = ["name", "country", "birthdate", "action"];
   dataSource = new MatTableDataSource<CustomerWithSelected>([]);
 
   ngOnChanges(): void {

@@ -1,38 +1,50 @@
-import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
+import { delay, map, tap } from 'rxjs/operators';
 import { securityActions } from './security.actions';
-import { User } from './security.reducer';
+import { ANONYMOUS_USER } from './security.reducer';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Injectable()
 export class SecurityEffects {
   #actions$ = inject(Actions);
-  #httpClient = inject(HttpClient);
+  #authService = inject(AuthService);
 
-  loadUser$ = createEffect(() => {
-    return this.#actions$.pipe(
-      ofType(securityActions.loadUser),
-      switchMap(() => this.#httpClient.get<User>('/security/user-info')),
-      map((user) => securityActions.loadUserSuccess({ user }))
+  user$ = createEffect(() => {
+    return this.#authService.user$.pipe(
+      delay(1000),
+      map((user) =>
+        securityActions.loaded({
+          user: user
+            ? {
+                id: user.email || '',
+                email: user.email || '',
+                name: user.name || '',
+                anonymous: false,
+              }
+            : ANONYMOUS_USER,
+        })
+      )
     );
   });
 
-  signInUser$ = createEffect(() => {
-    return this.#actions$.pipe(
-      ofType(securityActions.signInUser),
-      switchMap(({ email, password }) =>
-        this.#httpClient.post<User>('/security/sign-in', { email, password })
-      ),
-      map((user) => securityActions.signInUserSuccess({ user }))
-    );
-  });
+  signInUser$ = createEffect(
+    () => {
+      return this.#actions$.pipe(
+        ofType(securityActions.signIn),
+        tap(() => this.#authService.loginWithRedirect())
+      );
+    },
+    { dispatch: false }
+  );
 
-  signOutUser$ = createEffect(() => {
-    return this.#actions$.pipe(
-      ofType(securityActions.signOutUser),
-      switchMap(() => this.#httpClient.post<User>('/security/sign-out', {})),
-      map((user) => securityActions.signOutUserSuccess({ user }))
-    );
-  });
+  signOutUser$ = createEffect(
+    () => {
+      return this.#actions$.pipe(
+        ofType(securityActions.signOut),
+        tap(() => this.#authService.logout())
+      );
+    },
+    { dispatch: false }
+  );
 }

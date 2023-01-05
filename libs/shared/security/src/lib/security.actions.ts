@@ -4,11 +4,10 @@ import { User } from './security.reducer';
 export const securityActions = createActionGroup({
   source: 'Security',
   events: {
-    'Load User': emptyProps(),
-    'Load User Success': props<{ user: User }>(),
-    'Sign In User': props<{ email: string; password: string }>(),
-    'Sign In User Success': props<{ user: User }>(),
-    'Sign Out User': emptyProps(),
-    'Sign Out User Success': props<{ user: User }>(),
-  },
+    loaded: props<{ user: User }>(),
+    'sign in': emptyProps(),
+    'sign in success': props<{ user: User }>(),
+    'sign out': emptyProps(),
+    'sign out success': props<{ user: User }>()
+  }
 });

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { SecurityService } from '@eternal/shared/security';
 import { RouterLink } from '@angular/router';
 import { AsyncPipe, NgIf } from '@angular/common';
@@ -12,7 +12,5 @@ import { AsyncPipe, NgIf } from '@angular/common';
   imports: [MatButtonModule, RouterLink, AsyncPipe, NgIf],
 })
 export class SidemenuComponent {
-  #securityService = inject(SecurityService);
-  loaded$ = this.#securityService.getLoaded$();
-  signedIn$ = this.#securityService.getSignedIn$();
+  securityService = inject(SecurityService);
 }

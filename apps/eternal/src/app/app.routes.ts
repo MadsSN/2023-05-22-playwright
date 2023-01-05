@@ -12,10 +12,6 @@ export const appRoutes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'security',
-        loadChildren: () => import('@eternal/user').then((m) => m.userRoutes),
-      },
-      {
         path: 'customers',
         loadChildren: () =>
           import('@eternal/customers/feature').then((m) => m.customersRoutes),

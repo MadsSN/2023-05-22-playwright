@@ -1,4 +1,4 @@
-<ul *ngIf="loaded$ | async">
+<ul *ngIf="securityService.loaded$ | async">
   <li>
     <a data-testid="btn-holidays" mat-raised-button routerLink="/holidays"
       >Holidays</a
@@ -10,11 +10,11 @@
     >
   </li>
   <li>
-    <a data-testid="btn-bookings" mat-raised-button routerLink="/bookings"
-      >Bookings</a
+    <a data-testid="btn-newsletter" mat-raised-button routerLink="/newsletter"
+      >Newsletter</a
     >
   </li>
-  <li *ngIf="signedIn$ | async">
+  <li *ngIf="securityService.signedIn$ | async">
     <a data-testid="btn-diary" mat-raised-button routerLink="/diary">Diary</a>
   </li>
 </ul>

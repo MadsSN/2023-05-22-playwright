@@ -1,6 +1,6 @@
 import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { SecurityService } from '@eternal/shared/security';
 import { RouterLink } from '@angular/router';
 
@@ -12,10 +12,14 @@ import { RouterLink } from '@angular/router';
   imports: [MatButtonModule, NgIf, AsyncPipe, RouterLink],
 })
 export class HeaderComponent {
-  #userService = inject(SecurityService);
-  user$ = this.#userService.getLoadedUser$();
+  #securityService = inject(SecurityService);
+  user$ = this.#securityService.loadedUser$;
 
   signOut() {
-    this.#userService.signOut();
+    this.#securityService.signOut();
+  }
+
+  signIn() {
+    this.#securityService.signIn();
   }
 }
