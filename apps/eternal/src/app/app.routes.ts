@@ -13,23 +13,19 @@ export const appRoutes: Routes = [
       },
       {
         path: 'customers',
-        loadChildren: () =>
-          import('@eternal/customers/feature').then((m) => m.customersRoutes),
+        loadChildren: () => import('@eternal/customers/feature'),
       },
       {
         path: 'bookings',
-        loadChildren: () =>
-          import('@eternal/bookings').then((m) => m.bookingsRoutes),
+        loadChildren: () => import('@eternal/bookings'),
       },
       {
         path: 'holidays',
-        loadChildren: () =>
-          import('@eternal/holidays/feature').then((m) => m.holidaysRoutes),
+        loadChildren: () => import('@eternal/holidays/feature'),
       },
       {
         path: 'diary',
-        loadChildren: () =>
-          import('@eternal/diary/feature').then((m) => m.diaryRoutes),
+        loadChildren: () => import('@eternal/diary/feature'),
       },
     ],
   },

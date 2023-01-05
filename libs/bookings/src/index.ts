@@ -1,1 +1,3 @@
-export { bookingsRoutes } from './lib/bookings.routes';
+import { bookingsRoutes } from './lib/bookings.routes';
+
+export default bookingsRoutes;

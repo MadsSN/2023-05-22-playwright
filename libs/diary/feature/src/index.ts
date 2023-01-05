@@ -1,1 +1,3 @@
-export { diaryRoutes } from './lib/diary.routes';
+import { diaryRoutes } from './lib/diary.routes';
+
+export default diaryRoutes;
