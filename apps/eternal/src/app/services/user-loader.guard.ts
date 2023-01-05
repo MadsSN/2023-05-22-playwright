@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { SecurityService } from '@eternal/shared/security';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserLoaderGuard implements CanActivate {
