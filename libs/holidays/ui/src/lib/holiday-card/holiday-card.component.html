@@ -1,6 +1,6 @@
 <mat-card
   *ngIf="holiday"
-  data-testid="holiday-card"
+  testid="holiday-card"
   [ngClass]="{ 'sold-out': holiday.soldOut }"
   class="my-4 mx-4"
 >
@@ -24,20 +24,18 @@
       *ngIf="holiday.isFavourite"
       (click)="removeFavourite.emit(holiday.id)"
       class="cursor-pointer"
-    >favorite
-    </mat-icon
-    >
+      >favorite
+    </mat-icon>
     <mat-icon
       eternalBlinker
       *ngIf="!holiday.isFavourite"
       (click)="addFavourite.emit(holiday.id)"
       class="cursor-pointer"
-    >favorite_outlined
-    </mat-icon
-    >
+      >favorite_outlined
+    </mat-icon>
     <a
       [routerLink]="['./request-info', holiday.id]"
-      data-testid="btn-brochure"
+      testid="btn-brochure"
       mat-raised-button
     >
       Get a Brochure

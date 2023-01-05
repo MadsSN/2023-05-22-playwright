@@ -1,20 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { ReactiveFormsModule, UntypedFormGroup } from "@angular/forms";
-import { Customer } from "@eternal/customers/model";
-import { Options } from "@eternal/shared/form";
-import { FormlyFieldConfig, FormlyModule } from "@ngx-formly/core";
-import { formly } from "ngx-formly-helpers";
-import { MatButtonModule } from "@angular/material/button";
-import { FormlyMatDatepickerModule } from "@ngx-formly/material/datepicker";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MatNativeDateModule } from "@angular/material/core";
-import { RouterLink } from "@angular/router";
-import { NgIf } from "@angular/common";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ReactiveFormsModule, UntypedFormGroup } from '@angular/forms';
+import { Customer } from '@eternal/customers/model';
+import { Options } from '@eternal/shared/form';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { formly } from 'ngx-formly-helpers';
+import { MatButtonModule } from '@angular/material/button';
+import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { RouterLink } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { TestidDirective } from '../../../../../shared/ui/src/lib/testid.directive';
 
 @Component({
-  selector: "eternal-customer",
-  templateUrl: "./customer.component.html",
-  styleUrls: ["./customer.component.scss"],
+  selector: 'eternal-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.scss'],
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -24,8 +25,9 @@ import { NgIf } from "@angular/common";
     MatDatepickerModule,
     MatNativeDateModule,
     RouterLink,
-    NgIf
-  ]
+    NgIf,
+    TestidDirective,
+  ],
 })
 export class CustomerComponent implements OnInit {
   formGroup = new UntypedFormGroup({});
@@ -38,18 +40,18 @@ export class CustomerComponent implements OnInit {
 
   ngOnInit() {
     this.fields = [
-      formly.requiredText("firstname", "Firstname", {
-        attributes: { "data-testid": "inp-firstname" }
+      formly.requiredText('firstname', 'Firstname', {
+        attributes: { testid: 'inp-firstname' },
       }),
-      formly.requiredText("name", "Name", {
-        attributes: { "data-testid": "inp-lastname" }
+      formly.requiredText('name', 'Name', {
+        attributes: { testid: 'inp-lastname' },
       }),
-      formly.requiredSelect("country", "Country", this.countries, {
-        attributes: { "data-testid": "inp-country" }
+      formly.requiredSelect('country', 'Country', this.countries, {
+        attributes: { testid: 'inp-country' },
       }),
-      formly.requiredDate("birthdate", "Birthdate", {
-        attributes: { "data-testid": "inp-birthdate" }
-      })
+      formly.requiredDate('birthdate', 'Birthdate', {
+        attributes: { testid: 'inp-birthdate' },
+      }),
     ];
   }
 
