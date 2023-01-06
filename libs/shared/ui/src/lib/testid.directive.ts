@@ -13,7 +13,7 @@ export class TestidDirective implements OnInit {
   ngOnInit(): void {
     const htmlElement = this.el.nativeElement as HTMLElement;
     htmlElement.removeAttribute('testid');
-    if (this.configuration.useTestId) {
+    if (this.configuration.useTestid) {
       htmlElement.setAttribute('data-testid', this.testid);
     }
   }

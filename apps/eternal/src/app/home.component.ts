@@ -1,7 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Configuration } from '@eternal/shared/config';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TestidDirective } from '../../../../libs/shared/ui/src/lib/testid.directive';
 
 @Component({
   selector: 'eternal-home',
@@ -33,10 +38,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       </mat-slide-toggle>
     </p> `,
   standalone: true,
-  imports: [ReactiveFormsModule, MatSlideToggleModule],
+  imports: [ReactiveFormsModule, MatSlideToggleModule, TestidDirective],
 })
 export class HomeComponent implements OnInit {
   config = inject(Configuration);
+  formGroup = inject(NonNullableFormBuilder).group({
+    mockCustomers: [true],
+    mockHolidays: [true],
+    useTestid: [true],
+  });
 
   mockCustomers = new FormControl(true, {
     nonNullable: true,
@@ -60,7 +70,7 @@ export class HomeComponent implements OnInit {
     );
 
     this.useDataTestid.valueChanges.subscribe(
-      (useTestid) => (this.config.useTestId = useTestid)
+      (useTestid) => (this.config.useTestid = useTestid)
     );
   }
 }

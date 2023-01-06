@@ -1,11 +1,25 @@
-import { Routes } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  Routes,
+} from '@angular/router';
 import { UserLoaderGuard } from './services/user-loader.guard';
 import { HomeComponent } from './home.component';
+import { Configuration } from '@eternal/shared/config';
+import { inject } from '@angular/core';
 
 export const appRoutes: Routes = [
   {
     path: '',
-    canActivate: [UserLoaderGuard],
+    canActivate: [
+      UserLoaderGuard,
+      (route: ActivatedRouteSnapshot) => {
+        if (route.queryParamMap.has('disable-testid')) {
+          inject(Configuration).useTestid = false;
+        }
+        return true;
+      },
+    ],
     children: [
       {
         path: '',
