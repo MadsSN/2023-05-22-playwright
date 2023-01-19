@@ -10,11 +10,8 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2020 browser module main",
     "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test",
-    "test:all": "nx run-many --target=test --all",
-    "lint:all": "nx run-many --target=lint --all",
-    "full-check": "run-s lint:all test:all build"
+    "storybook": "nx run eternal:storybook",
+    "build": "nx build"
   },
   "private": true,
   "dependencies": {

@@ -213,4 +213,4 @@ You might have to use it quite often in the future 😉
 
 ## 2.2. Push your branch
 
-Finally, push your branch to Gitlab.
+Finally, push your branch to GitHub.
