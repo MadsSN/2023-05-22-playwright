@@ -6,6 +6,7 @@
 - [6. Rename a customer](#6-rename-a-customer)
 - [7. Delete a customer](#7-delete-a-customer)
 - [8. Spot the error](#8-spot-the-error)
+- [9. User-Facing Selectors](#9-user-facing-selectors)
 
 In this lab, we write the type of tests that should be sufficient to cover 80% of our needs.
 
@@ -243,6 +244,50 @@ test('select the same country again', async ({ page }) => {
   await page.locator('data-testid=opt-country >> text=Austria').click();
 
   await page.getByTestId('btn-submit').click();
+});
+```
+
+</details>
+
+## 9. User-Facing Selectors
+
+Write two tests with user-facing selectors (`page.getByRole` & `page.getByLabel`).
+
+The first test should select the holiday Firenze and request a brochure. Fill in the address and make sure that the message "Brochure sent" shows up.
+
+The second test should rename the customer Latitia to Laetitia and verify that she doesn't show up in the cutomers list anymore.
+
+<details>
+
+<summary>Solution</summary>
+
+```typescript
+test.describe('user-facing selectors', () => {
+  test('should request brochure for Firenze', async ({ page }) => {
+    await page.getByRole('link', { name: 'Holidays', exact: true }).click();
+    await page
+      .getByLabel(/Firenze/i)
+      .getByRole('link', { name: 'Get a Brochure' })
+      .click();
+    await page.getByLabel('Address').fill('Domgasse 5');
+    await page.getByRole('button', { name: 'Send' }).click();
+    await page.getByRole('status');
+  });
+
+  test('should rename Latitia to Laetitia', async ({ page }) => {
+    await page.getByRole('link', { name: 'Customers', exact: true }).click();
+    await page
+      .getByLabel(/Latitia/i)
+      .getByRole('link', { name: 'Edit Customer' })
+      .click();
+    await expect(page.getByLabel('Firstname')).toHaveValue('Latitia');
+    await page.getByLabel('Firstname').fill('Laetitia');
+    await page.getByRole('button', { name: 'Save' }).click();
+    await expect(page.getByRole('link', { name: 'Edit Customer' })).toHaveCount(
+      10
+    );
+    await expect(page.getByLabel(/Latitia/)).toHaveCount(0);
+  });
 });
 ```
 
