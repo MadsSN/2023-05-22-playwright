@@ -1,6 +1,6 @@
-<h2 class="my-2" data-testid="header-customers">Customers</h2>
+<h2 class="my-2" testid="header-customers">Customers</h2>
 <p>
-  <a [routerLink]="['.', 'new']" color="primary" testid="btn-customers-add" mat-raised-button
+  <a [routerLink]="['.', 'new']" color="primary" testid="btn-add-customer" mat-raised-button
     >Add Customer</a
   >
 </p>
@@ -23,7 +23,7 @@
           <mat-icon>edit</mat-icon>
         </a>
       </p>
-      <p class="name" [id]="'customer-' + customer.id">
+      <p class="name" [id]="'customer-' + customer.id" testid="name">
         {{ customer.firstname }} {{ customer.name }}
       </p>
       <p class="country">{{ customer.country }}</p>

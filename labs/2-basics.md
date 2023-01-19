@@ -85,7 +85,7 @@ test('customers list shows 10 rows', async ({ page }) => {
 
 ## 4. Verify customer names
 
-After you managed, to count the customer rows, the next should pick the 3rd and the 10th customer and verify that their names are "Brandt, Hugo" and "Janáček, Jan".
+After you managed, to count the customer rows, the next should pick the 3rd and the 10th customer and verify that their names are "Hugo Brandt" and "Jan Janáček".
 
 <details>
 
@@ -100,8 +100,8 @@ test('3rd customer is Brandt, Hugo; 10th is Janáček, Jan', async ({ page }) =>
     'data-testid=row-customer >> data-testid=name'
   );
 
-  await expect(nameLocator.nth(2)).toHaveText('Brandt, Hugo');
-  await expect(nameLocator.nth(9)).toHaveText('Janáček, Jan');
+  await expect(nameLocator.nth(2)).toHaveText('Hugo Brandt');
+  await expect(nameLocator.nth(9)).toHaveText('Jan Janáček');
 });
 ```
 
@@ -124,15 +124,15 @@ test('add Nicholas Dimou as new customer', async ({ page }) => {
   await page.getByTestId('btn-customers').click();
   await page.getByTestId('btn-add-customer').click();
   await page.getByTestId('inp-firstname').fill('Nicholas');
-  await page.getByTestId('inp-lastname').fill('Dimou');
-  await page.getByTestId('inp-country').click();
-  await page.getByTestId('text=Greece').click();
+  await page.getByTestId('inp-name').fill('Dimou');
+  await page.getByTestId('sel-country').click();
+  await page.getByText('Greece').click();
   await page.getByTestId('inp-birthdate').fill('1.2.1978');
   await page.getByTestId('btn-submit').click();
 
   await expect(
     page.locator('data-testid=row-customer', {
-      hasText: 'Dimou, Nicholas',
+      hasText: 'Nicholas Dimou',
     })
   ).toBeVisible();
 });
@@ -157,8 +157,8 @@ test('rename Latitia to Laetitia', async ({ page }) => {
     .getByTestId('btn-edit')
     .click();
   await page.getByTestId('inp-firstname').fill('Laetitia');
-  await page.getByTestId('inp-lastname').fill('Bellitissa-Wagner');
-  await page.getByTestId('inp-country').click();
+  await page.getByTestId('inp-name').fill('Bellitissa-Wagner');
+  await page.getByTestId('sel-country').click();
   await page.getByText('Austria').click();
   await page.getByTestId('btn-submit').click();
 
@@ -184,21 +184,23 @@ The delete button opens the confirm dialog of the browser. Look up in the offici
 
 ```typescript
 test('delete Knut Eggen', async ({ page }) => {
-  await page.getByTestId('btn-customers').click();
+  test('delete Knut Eggen', async ({ page }) => {
+    await page.getByTestId('btn-customers').click();
 
-  await page
-    .locator('[data-testid=row-customer]', { hasText: 'Eggen, Knut' })
-    .getByTestId('btn-edit')
-    .click();
-  page.on('dialog', (dialog) => dialog.accept());
-  await page.getByTestId('btn-delete').click();
+    await page
+      .locator('[data-testid=row-customer]', { hasText: 'Knut Eggen' })
+      .getByTestId('btn-edit')
+      .click();
+    page.on('dialog', (dialog) => dialog.accept());
+    await page.getByTestId('btn-delete').click();
 
-  const locator = page.getByTestId('row-customer');
-  await expect(locator).toHaveCount(10);
+    const locator = page.getByTestId('row-customer');
+    await expect(locator).toHaveCount(10);
 
-  await expect(
-    page.locator('data-testid=row-customer', { hasText: 'Eggen, Knut' })
-  ).not.toBeVisible();
+    await expect(
+      page.locator('data-testid=row-customer', { hasText: 'Knut Eggen' })
+    ).not.toBeVisible();
+  });
 });
 ```
 
@@ -214,11 +216,11 @@ test('select the same country again', async ({ page }) => {
 
   await page
     .locator(
-      "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
+      "[data-testid=row-customer] p:text('Hugo Brandt') >> .. >> mat-icon"
     )
     .click();
-  await page.getByTestId('inp-country').click();
-  await page.getByText('Austria').click();
+  await page.getByTestId('sel-country').click();
+  await page.click('Austria');
 
   await page.getByTestId('btn-submit').click();
 });
@@ -234,11 +236,12 @@ test('select the same country again', async ({ page }) => {
 
   await page
     .locator(
-      "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
+      "[data-testid=row-customer] p:text('Hugo Brandt') >> .. >> mat-icon"
     )
     .click();
-  await page.getByTestId('inp-country').click();
-  await page.locator('mat-option >> text=Austria').click();
+  await page.getByTestId('sel-country').click();
+  await page.locator('data-testid=opt-country >> text=Austria').click();
+
   await page.getByTestId('btn-submit').click();
 });
 ```

@@ -40,7 +40,7 @@
 
   <div class="buttons">
     <a [routerLink]="['..']" mat-raised-button>Back</a>
-    <button (click)="remove()" color="warn" mat-raised-button type="button">Delete</button>
+    <button (click)="remove()" color="warn" mat-raised-button type="button" testid="btn-delete">Delete</button>
     <button color="primary" mat-raised-button type="submit" testid="btn-submit">Save</button>
   </div>
 </form>
