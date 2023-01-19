@@ -8,7 +8,6 @@
 - [8. More configuration](#8-more-configuration)
 - [9. Assertion](#9-assertion)
 - [10. Tracing](#10-tracing)
-- [11. Push your branch](#11-push-your-branch)
 
 We use VSCode for the exercises. Make sure you have it installed.
 
@@ -130,6 +129,7 @@ Let's extend our configuration with additional values:
 - `config.testDir`: The folder where your tests are located. Use `./tests`.
 - `config.use.baseURL`: The URL of our application is http://localhost:4200. Add a `baseURL` property to `config.use`
   and set its value to `http://localhost:4200`.
+  `config.reporter`: Let's you define a reporting format. Use the value `html`.
 - `config.use.screenshot`: We want to see what went wrong, when a test failed. Set the `screenshot` property
   to `only-on-failure`.
 - `config.use.trace`: For more detailed analysis, we want to have the trace fill as well. Set the property's value
@@ -212,7 +212,3 @@ A new window should open. Take your time and make sure you understand its elemen
 click on the commands, etc.
 
 You might have to use it quite often in the future 😉
-
-## 11. Push your branch
-
-Finally, push your branch to GitHub.
