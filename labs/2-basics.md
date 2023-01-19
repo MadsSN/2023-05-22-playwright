@@ -24,15 +24,15 @@ Verify that our application has an h1 with the text "Unforgettable Holidays." Na
 **./tests/basics.spec.ts**
 
 ```typescript
-import { test, expect } from "@playwright/test";
+import { test, expect } from '@playwright/test';
 
-test.describe("Basics", () => {
+test.describe('Basics', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("");
+    await page.goto('');
   });
 
-  test("header is Unforgettable Holidays", async ({ page }) => {
-    await expect(page.locator("h1")).toHaveText("Unforgettable Holidays");
+  test('header is Unforgettable Holidays', async ({ page }) => {
+    await expect(page.locator('h1')).toHaveText('Unforgettable Holidays');
   });
 });
 ```
@@ -54,9 +54,9 @@ Add the test to the existing test file.
 **./tests/basics.spec.ts**
 
 ```typescript
-test("greeting on home", async ({ page }) => {
-  await expect(page.getByTestId("txt-greeting-1")).toContainText(
-    "imaginary travel agency"
+test('greeting on home', async ({ page }) => {
+  await expect(page.getByTestId('txt-greeting-1')).toContainText(
+    'imaginary travel agency'
   );
 });
 ```
@@ -74,9 +74,9 @@ Write a test that verifies that the customers list has exactly 10 rows.
 **./tests/basics.spec.ts**
 
 ```typescript
-test("customers list shows 10 rows", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
-  const locator = page.getByTestId("row-customer");
+test('customers list shows 10 rows', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
+  const locator = page.getByTestId('row-customer');
   await expect(locator).toHaveCount(10);
 });
 ```
@@ -94,14 +94,14 @@ After you managed, to count the customer rows, the next should pick the 3rd and 
 **./tests/basics.spec.ts**
 
 ```typescript
-test("3rd customer is Brandt, Hugo; 10th is Janáček, Jan", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
+test('3rd customer is Brandt, Hugo; 10th is Janáček, Jan', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
   const nameLocator = page.locator(
-    "data-testid=row-customer >> data-testid=name"
+    'data-testid=row-customer >> data-testid=name'
   );
 
-  await expect(nameLocator.nth(2)).toHaveText("Brandt, Hugo");
-  await expect(nameLocator.nth(9)).toHaveText("Janáček, Jan");
+  await expect(nameLocator.nth(2)).toHaveText('Brandt, Hugo');
+  await expect(nameLocator.nth(9)).toHaveText('Janáček, Jan');
 });
 ```
 
@@ -120,19 +120,19 @@ After the customer has been added, make sure that he shows up on the first page.
 **./tests/basics.spec.ts**
 
 ```typescript
-test("add Nicholas Dimou as new customer", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
-  await page.getByTestId("btn-add-customer").click();
-  await page.getByTestId("inp-firstname").fill("Nicholas");
-  await page.getByTestId("inp-lastname").fill("Dimou");
-  await page.getByTestId("inp-country").click();
-  await page.getByTestId("text=Greece").click();
-  await page.getByTestId("inp-birthdate").fill("1.2.1978");
-  await page.getByTestId("btn-submit").click();
+test('add Nicholas Dimou as new customer', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
+  await page.getByTestId('btn-add-customer').click();
+  await page.getByTestId('inp-firstname').fill('Nicholas');
+  await page.getByTestId('inp-lastname').fill('Dimou');
+  await page.getByTestId('inp-country').click();
+  await page.getByTestId('text=Greece').click();
+  await page.getByTestId('inp-birthdate').fill('1.2.1978');
+  await page.getByTestId('btn-submit').click();
 
   await expect(
-    page.locator("data-testid=row-customer", {
-      hasText: "Dimou, Nicholas",
+    page.locator('data-testid=row-customer', {
+      hasText: 'Dimou, Nicholas',
     })
   ).toBeVisible();
 });
@@ -149,21 +149,21 @@ Pick "Latitia, Bellitissa" and rename her to "Laetitia, Bellitissa-Wagner".
 <summary>Solution</summary>
 
 ```typescript
-test("rename Latitia to Laetitia", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
+test('rename Latitia to Laetitia', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
 
   await page
-    .locator("[data-testid=row-customer]", { hasText: "Latitia" })
-    .getByTestId("btn-edit")
+    .locator('[data-testid=row-customer]', { hasText: 'Latitia' })
+    .getByTestId('btn-edit')
     .click();
-  await page.getByTestId("inp-firstname").fill("Laetitia");
-  await page.getByTestId("inp-lastname").fill("Bellitissa-Wagner");
-  await page.getByTestId("inp-country").click();
-  await page.getByText("Austria").click();
-  await page.getByTestId("btn-submit").click();
+  await page.getByTestId('inp-firstname').fill('Laetitia');
+  await page.getByTestId('inp-lastname').fill('Bellitissa-Wagner');
+  await page.getByTestId('inp-country').click();
+  await page.getByText('Austria').click();
+  await page.getByTestId('btn-submit').click();
 
   await expect(
-    page.locator("data-testid=row-customer", { hasText: "Bellitissa-Wagner" })
+    page.locator('data-testid=row-customer', { hasText: 'Bellitissa-Wagner' })
   ).toBeVisible();
 });
 ```
@@ -183,21 +183,21 @@ The delete button opens the confirm dialog of the browser. Look up in the offici
 **filename.ts**
 
 ```typescript
-test("delete Knut Eggen", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
+test('delete Knut Eggen', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
 
   await page
-    .locator("[data-testid=row-customer]", { hasText: "Eggen, Knut" })
-    .getByTestId("btn-edit")
+    .locator('[data-testid=row-customer]', { hasText: 'Eggen, Knut' })
+    .getByTestId('btn-edit')
     .click();
-  page.on("dialog", (dialog) => dialog.accept());
-  await page.getByTestId("btn-delete").click();
+  page.on('dialog', (dialog) => dialog.accept());
+  await page.getByTestId('btn-delete').click();
 
-  const locator = page.getByTestId("row-customer");
+  const locator = page.getByTestId('row-customer');
   await expect(locator).toHaveCount(10);
 
   await expect(
-    page.locator("data-testid=row-customer", { hasText: "Eggen, Knut" })
+    page.locator('data-testid=row-customer', { hasText: 'Eggen, Knut' })
   ).not.toBeVisible();
 });
 ```
@@ -209,18 +209,18 @@ test("delete Knut Eggen", async ({ page }) => {
 The following test fails. Find out why and fix it.
 
 ```typescript
-test("select the same country again", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
+test('select the same country again', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
 
   await page
     .locator(
       "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
     )
     .click();
-  await page.getByTestId("inp-country").click();
-  await page.getByText("Austria").click();
+  await page.getByTestId('inp-country').click();
+  await page.getByText('Austria').click();
 
-  await page.getByTestId("btn-submit").click();
+  await page.getByTestId('btn-submit').click();
 });
 ```
 
@@ -229,17 +229,17 @@ test("select the same country again", async ({ page }) => {
 <summary>Solution</summary>
 
 ```typescript
-test("select the same country again", async ({ page }) => {
-  await page.getByTestId("btn-customers").click();
+test('select the same country again', async ({ page }) => {
+  await page.getByTestId('btn-customers').click();
 
   await page
     .locator(
       "[data-testid=row-customer] mat-cell:text('Brandt, Hugo') ~ mat-cell mat-icon"
     )
     .click();
-  await page.getByTestId("inp-country").click();
-  await page.locator("mat-option >> text=Austria").click();
-  await page.getByTestId("btn-submit").click();
+  await page.getByTestId('inp-country').click();
+  await page.locator('mat-option >> text=Austria').click();
+  await page.getByTestId('btn-submit').click();
 });
 ```
 

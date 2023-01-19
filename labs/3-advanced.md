@@ -19,21 +19,21 @@ Use the newly created page objects in your test. You have to instantiate in ever
 **tests/page-objects/customers-page.ts**
 
 ```typescript
-import { expect, Page } from "@playwright/test";
+import { expect, Page } from '@playwright/test';
 
 export class CustomersPage {
   constructor(private page: Page) {}
 
   async add(): Promise<void> {
-    await this.page.getByTestId("btn-add-customer").click();
+    await this.page.getByTestId('btn-add-customer').click();
   }
 
   async edit(name: string): Promise<void> {
     await this.page
-      .locator("data-testid=row-customer", {
+      .locator('data-testid=row-customer', {
         hasText: name,
       })
-      .getByTestId("btn-edit")
+      .getByTestId('btn-edit')
       .click();
   }
 }
@@ -42,7 +42,7 @@ export class CustomersPage {
 **tests/page-objects/customer-page.ts**
 
 ```typescript
-import { Page } from "@playwright/test";
+import { Page } from '@playwright/test';
 
 interface CustomerData {
   firstname?: string;
@@ -56,11 +56,11 @@ export class CustomerPage {
 
   async fillIn(customerData: CustomerData) {
     if (customerData.firstname !== undefined) {
-      await this.page.getByTestId("inp-firstname").fill(customerData.firstname);
+      await this.page.getByTestId('inp-firstname').fill(customerData.firstname);
     }
 
     if (customerData.lastname !== undefined) {
-      await this.page.getByTestId("inp-lastname").fill(customerData.lastname);
+      await this.page.getByTestId('inp-lastname').fill(customerData.lastname);
     }
 
     if (customerData.birthday !== undefined) {
@@ -68,18 +68,18 @@ export class CustomerPage {
       const month = customerData.birthday.getMonth() + 1;
       const year = customerData.birthday.getFullYear();
       await this.page
-        .getByTestId("inp-birthdate")
+        .getByTestId('inp-birthdate')
         .fill(`${day}.${month}.${year}`);
     }
 
     if (customerData.country !== undefined) {
-      await this.page.getByTestId("inp-country").click();
-      await this.page.locator("mat-option >> text=Greece").click();
+      await this.page.getByTestId('inp-country').click();
+      await this.page.locator('mat-option >> text=Greece').click();
     }
   }
 
   async submit() {
-    await this.page.getByTestId("btn-submit").click();
+    await this.page.getByTestId('btn-submit').click();
   }
 }
 ```
@@ -93,7 +93,7 @@ Integrate test fixtures for the `CustomersPage` and `CustomerPage` into your `te
 Small hint:
 
 ```typescript
-import { expect, test as base } from "@playwright/test";
+import { expect, test as base } from '@playwright/test';
 
 const test = base.extend<>(); // ....
 ```
@@ -123,10 +123,10 @@ Write a test, that returns only one customer with following data:
 
 ```typescript
 const customer = {
-  firstname: "Isabell",
-  lastname: "Sykora",
-  birthdate: "1984-05-30",
-  country: "AT",
+  firstname: 'Isabell',
+  lastname: 'Sykora',
+  birthdate: '1984-05-30',
+  country: 'AT',
 };
 ```
 
@@ -148,22 +148,22 @@ The request for customers will be <u>https://api.eternal-holidays.net/customers<
 **/tests/basics.spec.ts**
 
 ```typescript
-test("should mock customers request with Isabell Sykora", async ({
+test('should mock customers request with Isabell Sykora', async ({
   page,
   customersPage,
   sidemenuPage,
 }) => {
-  await page.getByTestId("tgl-mock-customers").click();
-  page.route("https://api.eternal-holidays.net/customers?page=1", (req) =>
+  await page.getByTestId('tgl-mock-customers').click();
+  page.route('https://api.eternal-holidays.net/customers?page=1', (req) =>
     req.fulfill({
-      contentType: "application/json",
+      contentType: 'application/json',
       body: JSON.stringify({
         content: [
           {
-            firstname: "Isabell",
-            name: "Sykora",
-            birthdate: "1984-05-30",
-            country: "AT",
+            firstname: 'Isabell',
+            name: 'Sykora',
+            birthdate: '1984-05-30',
+            country: 'AT',
           },
         ],
         total: 1,
@@ -171,7 +171,7 @@ test("should mock customers request with Isabell Sykora", async ({
     })
   );
 
-  await sidemenuPage.select("customers");
+  await sidemenuPage.select('customers');
   await customersPage.assertRowCount(1);
 });
 ```
@@ -203,29 +203,29 @@ Create a new file for that. Like `authentication.spec.ts`.
 **./tests/authentication.ts**
 
 ```typescript
-import test, { expect } from "@playwright/test";
+import test, { expect } from '@playwright/test';
 
-test.describe("Authentication", () => {
-  test("auth0 authenticates when already signed in", async ({ page }) => {
-    await page.goto("");
-    await page.getByTestId("btn-sign-in").click();
-    await page.locator("input[name=email]").fill("john.list@host.com");
-    await page.locator("input[name=password]").fill("John List");
-    await page.locator("button[type=submit]").click();
+test.describe('Authentication', () => {
+  test('auth0 authenticates when already signed in', async ({ page }) => {
+    await page.goto('');
+    await page.getByTestId('btn-sign-in').click();
+    await page.locator('input[name=email]').fill('john.list@host.com');
+    await page.locator('input[name=password]').fill('John List');
+    await page.locator('button[type=submit]').click();
     await page
-      .locator("data-testid=p-username", { hasText: "John List" })
+      .locator('data-testid=p-username', { hasText: 'John List' })
       .waitFor();
 
     let authorizeRequestSent = false;
-    await page.on("request", (req) => {
-      if (req.url().startsWith("https://dev-xbu2-fid.eu.auth0.com/")) {
+    await page.on('request', (req) => {
+      if (req.url().startsWith('https://dev-xbu2-fid.eu.auth0.com/')) {
         authorizeRequestSent = true;
       }
     });
     await page.reload();
 
     await page
-      .locator("data-testid=p-username", { hasText: "John List" })
+      .locator('data-testid=p-username', { hasText: 'John List' })
       .waitFor();
 
     expect(authorizeRequestSent).toBe(true);
@@ -252,24 +252,24 @@ In the project's root, create a new file called **global-setup.ts**. Playwright 
 **/global-setup.ts**
 
 ```typescript
-import { chromium, FullConfig } from "@playwright/test";
+import { chromium, FullConfig } from '@playwright/test';
 
 async function globalSetup(config: FullConfig) {
   const { baseURL } = config.projects[0].use;
 
   const browser = await chromium.launch();
   const page = await browser.newPage();
-  await page.goto(baseURL || "");
+  await page.goto(baseURL || '');
 
-  await page.getByTestId("btn-sign-in").click();
-  await page.locator("input[name=email]").fill("john.list@host.com");
-  await page.locator("input[name=password]").fill("John List");
-  await page.locator("button[type=submit]").click();
+  await page.getByTestId('btn-sign-in').click();
+  await page.locator('input[name=email]').fill('john.list@host.com');
+  await page.locator('input[name=password]').fill('John List');
+  await page.locator('button[type=submit]').click();
   await page
-    .locator("data-testid=p-username", { hasText: "John List" })
+    .locator('data-testid=p-username', { hasText: 'John List' })
     .waitFor();
 
-  await page.context().storageState({ path: "john-list.json" });
+  await page.context().storageState({ path: 'john-list.json' });
   await page.close();
 }
 
@@ -284,7 +284,7 @@ In the _playwright.config.ts_, add the `globalSetup` property, pointing to the n
 
 ```typescript
 const config: PlaywrightTestConfig = {
-  globalSetup: require.resolve("./global-setup.ts"),
+  globalSetup: require.resolve('./global-setup.ts'),
   // ...
 };
 ```
@@ -298,21 +298,21 @@ Create a new test, that verifies the usage and also the opposite.
 _./tests/cached-authentication.spec.ts_
 
 ```typescript
-import test, { expect } from "@playwright/test";
+import test, { expect } from '@playwright/test';
 
-test.describe("cached authentication", () => {
-  test.describe("use cache", () => {
-    test.use({ storageState: "john-list.json" });
+test.describe('cached authentication', () => {
+  test.describe('use cache', () => {
+    test.use({ storageState: 'john-list.json' });
 
-    test("verify saved authentication", async ({ page }) => {
-      await page.goto("");
-      await expect(page.getByTestId("p-username")).toContainText("John List");
+    test('verify saved authentication', async ({ page }) => {
+      await page.goto('');
+      await expect(page.getByTestId('p-username')).toContainText('John List');
     });
   });
 
-  test("", async ({ page }) => {
-    await page.goto("");
-    await expect(page.getByTestId("btn-sign-in")).toBeVisible();
+  test('', async ({ page }) => {
+    await page.goto('');
+    await expect(page.getByTestId('btn-sign-in')).toBeVisible();
   });
 });
 ```
