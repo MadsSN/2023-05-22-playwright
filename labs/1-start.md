@@ -31,6 +31,8 @@ available for all your projects. You only need to re-run this command, if you us
 
 ## 1.1. First test
 
+Start the application via `npm run start`. It is reachable on "http://localhost:4200".
+
 Let's add a script to the **package.json** called `test:codegen`. It should execute the following command `playwright codegen`.
 
 We don't write our first test manually, but use the code generator. Run `npm run test:codegen`.
@@ -38,8 +40,8 @@ We don't write our first test manually, but use the code generator. Run `npm run
 A browser and a small window with the name "Playwright inspector" should open. In its menu, the "Record" item should be
 in red color.
 
-In your browser, type in "https://genuine-narwhal-f0f8ad.netlify.app/". Click on the "Customers" menu item. A table with
-customer entires should appear. Click on the header which says "Customers".
+In your browser, type in "http://localhost:4200". Click on the "Customers" menu item. A table with
+customer entries should appear. Click on the header which says "Customers".
 
 Go the "Playwright inspector". Stop the recording and copy the content into a new file in our repository which you
 call "tests/init.spec.ts".
@@ -52,7 +54,7 @@ _tests/init.spec.ts_
 import { test, expect } from "@playwright/test";
 
 test("test", async ({ page }) => {
-  await page.goto("https://genuine-narwhal-f0f8ad.netlify.app/");
+  await page.goto("http://localhost:4200/");
   await page.getByTestId("btn-customers").click();
   await page.getByTestId("header-customers").click();
 });
@@ -126,8 +128,8 @@ Let's extend our configuration with additional values:
 - `config.expect`: By default, a test has a total timeout of 30 seconds. Add a further timeout for an individual
   assertion. It shouldn't take longer than 4 seconds. Add the property `expect: {timeout: 4000}` to the `config`
   property.
-- `config.use.baseURL`: The URL of our application is https://genuine-narwhal-f0f8ad.netlify.app/. Add a `baseURL` property to `config.use`
-  and set its value to `https://genuine-narwhal-f0f8ad.netlify.app/`.
+- `config.use.baseURL`: The URL of our application is http://localhost:4200. Add a `baseURL` property to `config.use`
+  and set its value to `http://localhost:4200`.
 - `config.use.screenshot`: We want to see what went wrong, when a test failed. Set the `screenshot` property
   to `only-on-failure`.
 - `config.use.trace`: For more detailed analysis, we want to have the trace fill as well. Set the property's value
@@ -142,7 +144,7 @@ Let's simplify our test a little bit and add an assertion at the end.
 
 **1. Use `baseURL`**
 
-You configured already the `baseUrl` in _playwright.config.ts_, so no need to use the value https://genuine-narwhal-f0f8ad.netlify.app/ in the
+You configured already the `baseUrl` in _playwright.config.ts_, so no need to use the value http://localhost:4200 in the
 test anymore.
 
 Replace the command
