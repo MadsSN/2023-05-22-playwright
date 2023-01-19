@@ -60,7 +60,7 @@ export class CustomerPage {
     }
 
     if (customerData.lastname !== undefined) {
-      await this.page.getByTestId('inp-lastname').fill(customerData.lastname);
+      await this.page.getByTestId('inp-name').fill(customerData.lastname);
     }
 
     if (customerData.birthday !== undefined) {
@@ -73,8 +73,10 @@ export class CustomerPage {
     }
 
     if (customerData.country !== undefined) {
-      await this.page.getByTestId('inp-country').click();
-      await this.page.locator('mat-option >> text=Greece').click();
+      await this.page.getByTestId('sel-country').click();
+      await this.page
+        .locator('[data-testid=opt-country] >> text=Greece')
+        .click();
     }
   }
 
@@ -154,21 +156,22 @@ test('should mock customers request with Isabell Sykora', async ({
   sidemenuPage,
 }) => {
   await page.getByTestId('tgl-mock-customers').click();
-  page.route('https://api.eternal-holidays.net/customers?page=1', (req) =>
-    req.fulfill({
-      contentType: 'application/json',
-      body: JSON.stringify({
-        content: [
-          {
-            firstname: 'Isabell',
-            name: 'Sykora',
-            birthdate: '1984-05-30',
-            country: 'AT',
-          },
-        ],
-        total: 1,
-      }),
-    })
+  page.route(
+    'https://api.eternal-holidays.net/customers?page=0&pageSize=10',
+    (req) =>
+      req.fulfill({
+        json: {
+          content: [
+            {
+              firstname: 'Isabell',
+              name: 'Sykora',
+              birthdate: '1984-05-30',
+              country: 'AT',
+            },
+          ],
+          total: 1,
+        },
+      })
   );
 
   await sidemenuPage.select('customers');
