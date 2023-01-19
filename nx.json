@@ -2,18 +2,24 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "eternal",
   "affected": {
-    "defaultBase": "master"
+    "defaultBase": "main"
   },
   "cli": {
     "packageManager": "yarn"
   },
-  "defaultProject": "eternal",
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "MGM5YjdiOGUtZWNhYi00OTY4LWE3ODQtNjVhOWY4OGE2OTZhfHJlYWQtd3JpdGU="
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook",
+          "component-test"
+        ],
+        "accessToken": "NDVlZWQxNDYtOTIxMy00NTExLWIwZTYtY2IwYWQxYjk5NjcxfHJlYWQtd3JpdGU="
       }
     }
   },
@@ -22,14 +28,14 @@
       "dependsOn": ["^build"],
       "inputs": ["production", "^production"]
     },
-    "e2e": {
-      "inputs": ["default", "^production"]
-    },
     "test": {
       "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"]
     },
     "lint": {
       "inputs": ["default", "{workspaceRoot}/.eslintrc.json"]
+    },
+    "build-storybook": {
+      "inputs": ["default", "^production", "{workspaceRoot}/.storybook/**/*"]
     }
   },
   "generators": {
@@ -47,6 +53,7 @@
       "style": "scss"
     }
   },
+  "defaultProject": "eternal",
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "sharedGlobals": [],
@@ -55,7 +62,9 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/jest.config.[jt]s",
-      "!{projectRoot}/.eslintrc.json"
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/.storybook/**/*",
+      "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)"
     ]
   }
 }

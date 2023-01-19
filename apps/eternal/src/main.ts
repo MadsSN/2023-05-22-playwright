@@ -1,78 +1,64 @@
 import { enableProdMode, importProvidersFrom, LOCALE_ID } from '@angular/core';
-
 import { environment } from './environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { Configuration } from '@eternal/shared/config';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { BaseUrlInterceptor } from '@eternal/shared/http';
-import {
-  LoadingInterceptor,
-  sharedUiMessagingProvider,
-} from '@eternal/shared/ui-messaging';
+import { BaseUrlInterceptor } from './app/core/base-url.interceptor';
+import { LoadingInterceptor } from './app/core/loading.interceptor';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideStore } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { securityProviders } from '@eternal/shared/security';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormlyMaterialModule } from '@ngx-formly/material';
-import { sharedMasterDataProvider } from '@eternal/shared/master-data';
-import { appRoutes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
+import { appRoutes } from './app/app.routes';
+import localeDe from '@angular/common/locales/de-AT';
 import { registerLocaleData } from '@angular/common';
-
-import localeDeAt from '@angular/common/locales/de-AT';
-import { HolidaysInterceptor } from '@eternal/holidays/feature';
-import { CustomersInterceptor } from '@eternal/customers/feature';
+import { provideStore } from '@ngrx/store';
+import { securityProviders } from './app/security/security.providers';
+import { sharedProviders } from './app/shared/shared.providers';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AuthModule } from '@auth0/auth0-angular';
-
+import { Configuration } from './app/shared/configuration';
+import { CustomersInterceptor } from './app/customer/customers.interceptor';
+import { DateFnsAdapter, MatDateFnsModule } from '@angular/material-date-fns-adapter';
+import { deAT } from 'date-fns/locale';
+import { HolidaysInterceptor } from './app/holidays/holidays.interceptor';
 if (environment.production) {
   enableProdMode();
 }
 
-registerLocaleData(localeDeAt, 'de-AT');
+registerLocaleData(localeDe, 'de-AT');
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideAnimations(),
-    provideRouter(appRoutes),
-
     provideStore(),
-    provideEffects(),
+    provideRouter(appRoutes),
     provideStoreDevtools(),
-
     ...securityProviders,
-    sharedMasterDataProvider,
-
-    importProvidersFrom(
+    ...sharedProviders,
+    importProvidersFrom([
       HttpClientModule,
       AuthModule.forRoot({
         domain: 'dev-xbu2-fid.eu.auth0.com',
-        clientId: 'YgUoOMh2jc4CQuo8Ky9PS7npW3Q4ckX9',
+        clientId: 'YgUoOMh2jc4CQuo8Ky9PS7npW3Q4ckX9'
       }),
       FormlyModule.forRoot({
         extras: { lazyRender: true },
         validationMessages: [
           {
             name: 'required',
-            message: 'This field is mandatory',
-          },
-        ],
+            message: 'This field is mandatory'
+          }
+        ]
       }),
-      FormlyMaterialModule
-    ),
-    sharedUiMessagingProvider,
-    {
-      provide: Configuration,
-      useFactory: () => new Configuration(environment.baseUrl),
-    },
+      MatDateFnsModule
+    ]),
     {
       provide: MAT_DATE_LOCALE,
-      useValue: 'de-AT',
+      useValue: deAT
     },
+
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: BaseUrlInterceptor },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: LoadingInterceptor },
     { provide: HTTP_INTERCEPTORS, multi: true, useClass: HolidaysInterceptor },
@@ -80,7 +66,8 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'de-AT' },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: { appearance: 'outline' },
+      useValue: { appearance: 'outline' }
     },
-  ],
+    { provide: Configuration, useValue: new Configuration(environment.baseUrl, true, false, true) }
+  ]
 });

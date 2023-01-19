@@ -1,5 +1,5 @@
 export const environment = {
-  baseUrl: 'http://localhost:8080',
-  mockHttp: false,
-  production: true,
+  baseUrl: 'https://api.eternal-holidays.net',
+  mockHttp: true,
+  production: true
 };

@@ -1,45 +1,54 @@
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  Routes,
-} from '@angular/router';
-import { UserLoaderGuard } from './services/user-loader.guard';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
-import { Configuration } from '@eternal/shared/config';
+import { NewsletterComponent } from './newsletter/newsletter.component';
+import { SecurityService } from './security/security.service';
 import { inject } from '@angular/core';
+import { filter } from 'rxjs/operators';
+import { Configuration } from './shared/configuration';
 
 export const appRoutes: Routes = [
   {
     path: '',
     canActivate: [
-      UserLoaderGuard,
-      (route: ActivatedRouteSnapshot) => {
-        if (route.queryParamMap.has('disable-testid')) {
-          inject(Configuration).useTestid = false;
+      ({ queryParamMap }: ActivatedRouteSnapshot) => {
+        const config = inject(Configuration);
+
+        if (queryParamMap.has('mock-customers')) {
+          config.updateFeatures({
+            mockCustomers: queryParamMap.get('mock-customers') == '1',
+          });
         }
-        return true;
+        if (queryParamMap.has('mock-holidays')) {
+          config.updateFeatures({
+            mockHolidays: queryParamMap.get('mock-holidays') == '1',
+          });
+        }
+        if (queryParamMap.has('use-testid')) {
+          config.updateFeatures({
+            useTestid: queryParamMap.get('use-testid') == '1',
+          });
+        }
       },
+      () => inject(SecurityService).loaded$.pipe(filter(Boolean)),
     ],
     children: [
       {
         path: '',
         component: HomeComponent,
       },
+      { path: 'home', redirectTo: '' },
+      { path: 'newsletter', component: NewsletterComponent },
       {
-        path: 'customers',
-        loadChildren: () => import('@eternal/customers/feature'),
-      },
-      {
-        path: 'bookings',
-        loadChildren: () => import('@eternal/bookings'),
+        path: 'customer',
+        loadChildren: () => import('./customer/customer.routes'),
       },
       {
         path: 'holidays',
-        loadChildren: () => import('@eternal/holidays/feature'),
+        loadChildren: () => import('./holidays/holidays.routes'),
       },
       {
         path: 'diary',
-        loadChildren: () => import('@eternal/diary/feature'),
+        loadChildren: () => import('./diary/diary.routes.module'),
       },
     ],
   },

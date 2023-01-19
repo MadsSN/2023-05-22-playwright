@@ -47,6 +47,34 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "dev-local": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/eternal/src/environments/environment.ts",
+              "with": "apps/eternal/src/environments/environment.dev-local.ts"
+            }
+          ]
+        },
+        "non-mock": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/eternal/src/environments/environment.ts",
+              "with": "apps/eternal/src/environments/environment.non-mock.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -59,6 +87,12 @@
         },
         "development": {
           "browserTarget": "eternal:build:development"
+        },
+        "dev-local": {
+          "browserTarget": "eternal:build:dev-local"
+        },
+        "non-mock": {
+          "browserTarget": "eternal:build:non-mock"
         }
       },
       "defaultConfiguration": "development"
@@ -82,7 +116,45 @@
         "jestConfig": "apps/eternal/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/eternal/.storybook",
+        "browserTarget": "eternal:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputDir": "dist/storybook/eternal",
+        "configDir": "apps/eternal/.storybook",
+        "browserTarget": "eternal:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "component-test": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/eternal/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "eternal:build"
+      }
     }
   },
-  "tags": ["type:app"]
+  "tags": []
 }

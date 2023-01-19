@@ -42,14 +42,14 @@ $candy-app-theme: mat.define-light-theme((
     primary: $candy-app-primary,
     accent: $candy-app-accent,
     warn: $candy-app-warn
-  )
+  ),
+  typography: mat.define-typography-config()
 ));
 @include mat.all-component-themes($candy-app-theme);
 
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
 
 body {
   margin: 0;
@@ -59,8 +59,12 @@ body {
   background-blend-mode: saturation;
 }
 
-a, .link {
+a {
   color: #2193b0;
+}
+
+.error {
+  color: map-get(mat.$red-palette, 500);
 }
 
 mat-checkbox + mat-checkbox, mat-radio-button + mat-radio-button {
@@ -79,4 +83,9 @@ mat-checkbox + mat-checkbox, mat-radio-button + mat-radio-button {
 h2 {
   font-weight: bold;
   font-size: 125%;
+}
+
+// tailwind fix
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field .mdc-notched-outline__notch {
+  border-right-style: hidden;
 }
