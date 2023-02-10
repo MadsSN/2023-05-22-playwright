@@ -20,7 +20,7 @@ Let's start.
 
 ## 1. Setup
 
-Let's setup Playwright from scratch. We integrate it into this repository. Run `npm install @playwright/test`.
+Let's setup Playwright from scratch. We integrate it into this repository. Run `npx yarn add -D @playwright/test`.
 
 Next, trigger the installation of the three browsers. Run `npx playwright install`.
 
@@ -117,7 +117,7 @@ Add another script `test:debug` to the **package.json**. It should execute
 Run `playwright test --debug`. Playwright starts in debugging mode which offers more features than VSCode but lacks the IDE integration.
 
 Execute the test, play with the embedded element locator, and take a look at the Playwright inspector's bottom area
-where you see a detailled history of the commands that have been executed so far.
+where you see a detailed history of the commands that have been executed so far.
 
 ## 8. More configuration
 
