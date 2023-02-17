@@ -14,8 +14,6 @@ We use VSCode for the exercises. Make sure you have it installed.
 Furthermore, install the official Playwright extension
 from https://marketplace.visualstudio.com/items?itemName=ms-playwright.playwright
 
-Create your own branch via `git checkout -b [yourname]`, or via your IDE.
-
 Let's start.
 
 ## 1. Setup
