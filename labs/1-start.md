@@ -18,7 +18,7 @@ Let's start.
 
 ## 1. Setup
 
-Let's setup Playwright from scratch. We integrate it into this repository. Run `npx yarn add -D @playwright/test`.
+Playwright is already installed. Verify that by checking that the **package.json** contains the dependency "@playwright/test".
 
 Next, trigger the installation of the three browsers. Run `npx playwright install`.
 

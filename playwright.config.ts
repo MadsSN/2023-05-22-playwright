@@ -1,6 +1,6 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { PlaywrightTestConfig, defineConfig } from '@playwright/test';
 
-const config: PlaywrightTestConfig = {
+const config: PlaywrightTestConfig = defineConfig({
   testDir: './tests',
-};
+});
 export default config;
