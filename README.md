@@ -1,6 +1,6 @@
 # Playwright Workshop
 
-After cloning the repository, please run `npx yarn` to install the dependencies.
+After cloning the repository, please run `npm ci` to install the dependencies.
 
 ## Internal Notes
 
