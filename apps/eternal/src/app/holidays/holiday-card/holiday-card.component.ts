@@ -18,9 +18,8 @@ import { TestidDirective } from '../../shared/testid.directive';
     BlinkerDirective,
     RouterLink,
     MatButtonModule,
-    TestidDirective
   ],
-  standalone: true
+  standalone: true,
 })
 export class HolidayCardComponent {
   @Input() holiday: Holiday | undefined;

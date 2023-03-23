@@ -7,9 +7,11 @@
   aria-labelledby="holiday-title"
 >
   <mat-card-header>
-    <mat-card-title class="text-lg font-bold" [id]="'holiday-card-' + holiday.id">{{
-      holiday.title
-    }}</mat-card-title>
+    <mat-card-title
+      class="text-lg font-bold"
+      [id]="'holiday-card-' + holiday.id"
+      >{{ holiday.title }}</mat-card-title
+    >
     <mat-card-subtitle class="h-16">{{ holiday.teaser }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content class="h-64 overflow-clip overflow-hidden">
@@ -23,7 +25,11 @@
     {{ holiday.description }}
   </mat-card-content>
   <mat-card-actions class="justify-evenly">
-    <a [routerLink]="['./request-info', holiday.id]" testid="btn-brochure" mat-raised-button>
+    <a
+      [routerLink]="['./request-info', holiday.id]"
+      data-testid="btn-brochure"
+      mat-raised-button
+    >
       Get a Brochure
     </a>
   </mat-card-actions>
