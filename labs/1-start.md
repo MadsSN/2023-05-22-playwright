@@ -18,20 +18,20 @@ Let's start.
 
 ## 1. Setup
 
-Playwright is already installed. Verify that by checking that the **package.json** contains the dependency "@playwright/test".
+Playwright is already installed. Verify that by checking that the **package.json** contains the dependency 
+"@playwright/test".
 
 Next, trigger the installation of the three browsers. Run `npx playwright install`.
 
-This will download a special browser with Webkit, Chromium and Firefox. Playwright stores them globally and they are now
+This will download a special browser with Webkit, Chromium and Firefox. Playwright stores them globally, 
+and they are now
 available for all your projects. You only need to re-run this command, if you use a new version of Playwright.
 
 ## 2. First test
 
 Start the application via `npm run start`. It is reachable on "http://localhost:4200".
 
-Let's add a script to the **package.json** called `test:codegen`. It should execute the following command `playwright codegen`.
-
-We don't write our first test manually, but use the code generator. Run `npm run test:codegen`.
+We don't write our first test manually, but use the code generator. Run `npx playwright codegen`.
 
 A browser and a small window with the name "Playwright inspector" should open. In its menu, the "Record" item should be
 in red color.
@@ -78,6 +78,24 @@ To speed them up, you can run the tests only in chromium. That would be
 npx playwright test ./tests/init.spec.ts --headed --project=chromium
 ```
 
+Add a "test" script, which runs the tests in the headless mode. At a new 
+line to the `scripts` property in the **package.json**.
+
+```jsonc
+"test": "playwright test"
+```
+
+---
+
+The above commands are useful, but most of the time, you'll use the ui mode. Add a new entry
+to the `scripts` property in the **package.json**:
+
+```jsonc
+"test:dev": "playwright test --ui"
+```
+
+Now run it via `npm run test:dev`. You should that the Playwright UI opens.
+
 ## 4. Add more Browsers
 
 By default, Playwright only runs with Chromium. Let's add Firefox and Webkit to it.
@@ -92,7 +110,7 @@ Open _playwright.config.ts_ add a property `projects` to the `config` variable s
 ];
 ```
 
-Now re-run the test. You should that the test is run three times.
+You should see the new three browsers in the UI as well and should be able to select them.
 
 ## 5. Run via VSCode
 
