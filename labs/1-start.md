@@ -23,9 +23,7 @@ Playwright is already installed. Verify that by checking that the **package.json
 
 Next, trigger the installation of the three browsers. Run `npx playwright install`.
 
-This will download a special browser with Webkit, Chromium and Firefox. Playwright stores them globally, 
-and they are now
-available for all your projects. You only need to re-run this command, if you use a new version of Playwright.
+This will download Chromium, Firefox, and a special browser that runs on Webkit. Playwright stores them globally, and they are now available for all your projects. You only need to re-run this command, if you update Playwright in the future.
 
 ## 2. First test
 
@@ -40,7 +38,7 @@ In your browser, type in "http://localhost:4200". Click on the "Customers" menu 
 customer entries should appear. Click on the header which says "Customers".
 
 Go the "Playwright inspector". Stop the recording and copy the content into a new file in our repository which you
-call "tests/init.spec.ts".
+call **tests/init.spec.ts**.
 
 It should look (kind of) like this:
 
